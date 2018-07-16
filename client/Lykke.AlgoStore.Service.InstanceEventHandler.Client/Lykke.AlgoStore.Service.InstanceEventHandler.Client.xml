@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Lykke.AlgoStore.Service.InstanceEventHandler.Client</name>
+    </assembly>
+    <members>
+        <member name="M:Lykke.Service.InstanceEventHandler.Client.AutofacExtension.RegisterInstanceEventHandlerClient(Autofac.ContainerBuilder,Lykke.Service.InstanceEventHandler.Client.InstanceEventHandlerServiceClientSettings,System.Func{Lykke.HttpClientGenerator.HttpClientGeneratorBuilder,Lykke.HttpClientGenerator.HttpClientGeneratorBuilder})">
+            <summary>
+            Registers <see cref="T:Lykke.Service.InstanceEventHandler.Client.IInstanceEventHandlerClient"/> in Autofac container using <see cref="T:Lykke.Service.InstanceEventHandler.Client.InstanceEventHandlerServiceClientSettings"/>.
+            </summary>
+            <param name="builder">Autofac container builder.</param>
+            <param name="settings">InstanceEventHandler client settings.</param>
+            <param name="builderConfigure">Optional <see cref="T:Lykke.HttpClientGenerator.HttpClientGeneratorBuilder"/> configure handler.</param>
+        </member>
+        <member name="T:Lykke.Service.InstanceEventHandler.Client.IInstanceEventHandlerClient">
+            <summary>
+            InstanceEventHandler client interface.
+            </summary>
+        </member>
+        <member name="T:Lykke.Service.InstanceEventHandler.Client.InstanceEventHandlerServiceClientSettings">
+            <summary>
+            InstanceEventHandler client settings.
+            </summary>
+        </member>
+        <member name="P:Lykke.Service.InstanceEventHandler.Client.InstanceEventHandlerServiceClientSettings.ServiceUrl">
+            <summary>Service url.</summary>
+        </member>
+    </members>
+</doc>
