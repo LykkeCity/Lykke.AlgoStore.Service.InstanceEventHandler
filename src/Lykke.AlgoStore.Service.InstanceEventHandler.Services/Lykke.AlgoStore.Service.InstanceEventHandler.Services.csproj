@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Lykke.AlgoStore.Service.InstanceEventHandler.Services</AssemblyName>
+    <RootNamespace>Lykke.AlgoStore.Service.InstanceEventHandler.Services</RootNamespace>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Lykke.Common" Version="7.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.Core\Lykke.AlgoStore.Service.InstanceEventHandler.Core.csproj" />
+  </ItemGroup>
+</Project>
