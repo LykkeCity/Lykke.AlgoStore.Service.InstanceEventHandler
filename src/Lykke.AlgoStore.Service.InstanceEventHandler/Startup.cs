@@ -48,7 +48,11 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler
 
             return services.BuildServiceProvider<AppSettings>(options =>
             {
-                options.ApiTitle = "Algo Store Instance Event Handler API";
+                options.SwaggerOptions = new LykkeSwaggerOptions
+                {
+                    ApiTitle = "Algo Store Instance Event Handler API"
+                };
+
                 options.Logs = logs =>
                 {
                     logs.AzureTableName = "AlgoInstanceEventHandlerLog";
