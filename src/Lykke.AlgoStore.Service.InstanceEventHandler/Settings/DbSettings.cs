@@ -6,5 +6,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Settings
     {
         [AzureTableCheck]
         public string LogsConnectionString { get; set; }
+
+        [AzureTableCheck]
+        public string DataStorageConnectionString { get; set; }
     }
 }
