@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -28,7 +28,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [HttpPost("handleCandles")]
         [SwaggerOperation("HandleCandles")]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        public async Task<IActionResult> HandleCandles([FromBody] List<Candle> candles)
+        public async Task<IActionResult> HandleCandles([FromBody] List<CandleChartingUpdate> candles)
         {
             await _candleService.WriteAsync(candles);
 
@@ -38,7 +38,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [HttpPost("handleTrades")]
         [SwaggerOperation("HandleTrades")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> HandleTrades([FromBody] List<Trade> trades)
+        public async Task<IActionResult> HandleTrades([FromBody] List<TradeChartingUpdate> trades)
         {
             await _tradeService.WriteAsync(trades);
 
@@ -48,7 +48,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [HttpPost("handleFunctions")]
         [SwaggerOperation("HandleFunctions")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> HandleFunctions([FromBody] List<Function> functions)
+        public async Task<IActionResult> HandleFunctions([FromBody] List<FunctionChartingUpdate> functions)
         {
             await _functionService.WriteAsync(functions);
 

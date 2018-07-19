@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Domain;
+using Lykke.AlgoStore.Algo.Charting;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services
 {
     public interface IFunctionService
     {
-        Task WriteAsync(IEnumerable<IFunction> functions);
+        Task WriteAsync(IEnumerable<FunctionChartingUpdate> functions);
     }
 }

@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Domain;
+using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Domain;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
     public class TradeService : ITradeService
     {
-        private readonly IHandler<Trade> _tradeHandler;
+        private readonly IHandler<TradeChartingUpdate> _tradeHandler;
 
-        public TradeService(IHandler<Trade> tradeHandler)
+        public TradeService(IHandler<TradeChartingUpdate> tradeHandler)
         {
             _tradeHandler = tradeHandler;
         }
 
-        public async Task WriteAsync(IEnumerable<ITrade> trades)
+        public async Task WriteAsync(IEnumerable<TradeChartingUpdate> trades)
         {
             foreach (var trade in trades)
             {
-                await _tradeHandler.Handle(Mapper.Map<Trade>(trade));
+                await _tradeHandler.Handle(trade);
             }
         }
     }

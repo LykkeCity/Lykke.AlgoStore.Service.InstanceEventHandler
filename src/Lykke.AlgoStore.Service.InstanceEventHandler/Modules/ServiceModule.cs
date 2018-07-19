@@ -1,9 +1,9 @@
 ﻿using Autofac;
+using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Domain;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Handlers;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Settings;
 using Lykke.Common.Log;
@@ -76,27 +76,27 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
 
             var logFactory = LogFactory.Create().AddConsole();
 
-            RegisterRabbitMqHandler<Candle>(builder, rabbitMqCandlesSettings, logFactory, "candleHandler");
-            RegisterRabbitMqHandler<Trade>(builder, rabbitMqTradesSettings, logFactory, "tradeHandler");
-            RegisterRabbitMqHandler<Function>(builder, rabbitMqFunctionsSettings, logFactory, "functionHandler");
+            RegisterRabbitMqHandler<CandleChartingUpdate>(builder, rabbitMqCandlesSettings, logFactory, "candleHandler");
+            RegisterRabbitMqHandler<TradeChartingUpdate>(builder, rabbitMqTradesSettings, logFactory, "tradeHandler");
+            RegisterRabbitMqHandler<FunctionChartingUpdate>(builder, rabbitMqFunctionsSettings, logFactory, "functionHandler");
 
             builder.RegisterType<CandleHandler>()
                 .WithParameter((info, context) => info.Name == "rabbitMqHandler",
-                    (info, context) => context.ResolveNamed<IHandler<Candle>>("candleHandler"))
+                    (info, context) => context.ResolveNamed<IHandler<CandleChartingUpdate>>("candleHandler"))
                 .SingleInstance()
-                .As<IHandler<Candle>>();
+                .As<IHandler<CandleChartingUpdate>>();
 
             builder.RegisterType<TradeHandler>()
                 .WithParameter((info, context) => info.Name == "rabbitMqHandler",
-                    (info, context) => context.ResolveNamed<IHandler<Trade>>("tradeHandler"))
+                    (info, context) => context.ResolveNamed<IHandler<TradeChartingUpdate>>("tradeHandler"))
                 .SingleInstance()
-                .As<IHandler<Trade>>();
+                .As<IHandler<TradeChartingUpdate>>();
 
             builder.RegisterType<FunctionHandler>()
                 .WithParameter((info, context) => info.Name == "rabbitMqHandler",
-                    (info, context) => context.ResolveNamed<IHandler<Function>>("functionHandler"))
+                    (info, context) => context.ResolveNamed<IHandler<FunctionChartingUpdate>>("functionHandler"))
                 .SingleInstance()
-                .As<IHandler<Function>>();
+                .As<IHandler<FunctionChartingUpdate>>();
 
             builder.RegisterType<CandleService>().As<ICandleService>().SingleInstance();
             builder.RegisterType<TradeService>().As<ITradeService>().SingleInstance();

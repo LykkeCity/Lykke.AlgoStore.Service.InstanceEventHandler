@@ -7,10 +7,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.19" />
     <PackageReference Include="Lykke.Common" Version="7.0.1" />
     <PackageReference Include="Lykke.RabbitMqBroker" Version="7.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.Core\Lykke.AlgoStore.Service.InstanceEventHandler.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
   </ItemGroup>
 </Project>

@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Domain;
+using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Domain;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
     public class CandleService : ICandleService
     {
-        private readonly IHandler<Candle> _candleHandler;
+        private readonly IHandler<CandleChartingUpdate> _candleHandler;
 
-        public CandleService(IHandler<Candle> candleHandler)
+        public CandleService(IHandler<CandleChartingUpdate> candleHandler)
         {
             _candleHandler = candleHandler;
         }
 
-        public async Task WriteAsync(IEnumerable<ICandle> candles)
+        public async Task WriteAsync(IEnumerable<CandleChartingUpdate> candles)
         {
             foreach (var candle in candles)
             {
-                await _candleHandler.Handle(Mapper.Map<Candle>(candle));
+                await _candleHandler.Handle(candle);
             }
         }
     }
