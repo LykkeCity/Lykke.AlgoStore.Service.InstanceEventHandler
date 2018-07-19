@@ -32,6 +32,9 @@
     <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.Core\Lykke.AlgoStore.Service.InstanceEventHandler.Core.csproj" />
     <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.Services\Lykke.AlgoStore.Service.InstanceEventHandler.Services.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Responses\" />
+  </ItemGroup>
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <ItemGroup>
       <DocFile Include="$(OutputPath)$(AssemblyName).xml" />

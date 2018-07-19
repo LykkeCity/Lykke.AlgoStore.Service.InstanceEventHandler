@@ -34,6 +34,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler
             Mapper.Initialize(cfg =>
             {
                 cfg.AddProfile<AutoMapperModelProfile>();
+                cfg.AddProfile<Services.AutoMapperProfile>();
             });
 
             Mapper.AssertConfigurationIsValid();
