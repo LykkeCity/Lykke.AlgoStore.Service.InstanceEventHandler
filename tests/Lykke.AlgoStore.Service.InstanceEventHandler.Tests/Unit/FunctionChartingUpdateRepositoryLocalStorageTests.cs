@@ -50,7 +50,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             {
                 FunctionName = $"Function - {DateTime.UtcNow}",
                 InstanceId = $"{Guid.NewGuid()}",
-                Value = (new Random()).NextDouble()
+                Value = (new Random()).NextDouble(),
+                InnerFunctions = new List<FunctionChartingUpdate>()
             };
 
             _repository.WriteAsync(data).Wait();

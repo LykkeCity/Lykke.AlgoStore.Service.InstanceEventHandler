@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.Entities;
+using Lykke.AzureStorage.Tables;
 using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories
 {
@@ -11,12 +11,12 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories
         public AutoMapperProfile()
         {
             //To entities
-            CreateMap<FunctionChartingUpdate, FunctionChartingUpdateEntity>()
-                .ForMember(dest => dest.InnerFunctions, opt => opt.MapFrom(src => JsonConvert.SerializeObject(src.InnerFunctions)));
+            CreateMap<FunctionChartingUpdate, FunctionChartingUpdateEntity>();
 
             ForAllMaps((map, cfg) =>
             {
-                if (map.DestinationType.IsSubclassOf(typeof(TableEntity)))
+                if (map.DestinationType.IsSubclassOf(typeof(TableEntity))
+                    || map.DestinationType.IsSubclassOf(typeof(AzureTableEntity)))
                 {
                     cfg.ForMember("ETag", opt => opt.Ignore());
                     cfg.ForMember("PartitionKey", opt => opt.Ignore());

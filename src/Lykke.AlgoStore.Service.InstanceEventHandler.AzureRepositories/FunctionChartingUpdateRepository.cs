@@ -27,13 +27,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories
         public async Task WriteAsync(FunctionChartingUpdate data)
         {
             var entity = Mapper.Map<FunctionChartingUpdateEntity>(data);
-            //new DynamicTableEntity
-            //{
-            //    //TODO: Make this use new DateTime property that will be added to FunctionChartingUpdate in future
-            //    RowKey = GenerateRowKey(data.FunctionName),
-            //    PartitionKey = GeneratePartitionKey(data.InstanceId),
-            //    Properties = EntityPropertyConverter.Flatten(data)
-            //};
 
             entity.PartitionKey = GeneratePartitionKey(data.InstanceId);
             entity.RowKey = GenerateRowKey(data.FunctionName);
