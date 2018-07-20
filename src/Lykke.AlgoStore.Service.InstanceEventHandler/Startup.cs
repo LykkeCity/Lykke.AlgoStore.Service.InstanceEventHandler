@@ -35,6 +35,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler
             {
                 cfg.AddProfile<AutoMapperModelProfile>();
                 cfg.AddProfile<Services.AutoMapperProfile>();
+                cfg.AddProfile<AzureRepositories.AutoMapperProfile>();
             });
 
             Mapper.AssertConfigurationIsValid();

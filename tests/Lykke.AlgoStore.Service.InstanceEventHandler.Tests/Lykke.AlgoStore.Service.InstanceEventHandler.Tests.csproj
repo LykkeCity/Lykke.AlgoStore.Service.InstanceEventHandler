@@ -12,4 +12,12 @@
     <PackageReference Include="NUnit.Runners" Version="3.8.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Lykke.AlgoStore.Service.InstanceEventHandler\Lykke.AlgoStore.Service.InstanceEventHandler.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Lykke.SettingsReader">
+      <HintPath>..\..\..\..\..\..\Users\joksa\.nuget\packages\lykke.settingsreader\1.0.43\lib\netstandard2.0\Lykke.SettingsReader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
