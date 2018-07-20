@@ -1,7 +1,11 @@
 ﻿using Autofac;
+using AzureStorage.Tables;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
+using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories;
+using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.Entities;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Handlers;
@@ -13,11 +17,11 @@ using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.SettingsReader;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
-{    
+{
     public class ServiceModule : Module
     {
         private readonly IReloadingManager<AppSettings> _appSettings;
-        
+
         public ServiceModule(IReloadingManager<AppSettings> appSettings)
         {
             _appSettings = appSettings;
@@ -41,6 +45,20 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                     return algoClientInstanceRepository;
                 })
                 .As<IAlgoClientInstanceRepository>()
+                .SingleInstance();
+
+            builder.Register(x =>
+                {
+                    var log = x.Resolve<ILogFactory>();
+
+                    var repository = new FunctionChartingUpdateRepository(
+                        AzureTableStorage<FunctionChartingUpdateEntity>.Create(reloadingDbManager,
+                            FunctionChartingUpdateRepository.TableName, log)
+                    );
+
+                    return repository;
+                })
+                .As<IFunctionChartingUpdateRepository>()
                 .SingleInstance();
 
             builder.RegisterInstance(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.RateLimitSettings)
