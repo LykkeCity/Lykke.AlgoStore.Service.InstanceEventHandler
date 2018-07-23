@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Utils;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
