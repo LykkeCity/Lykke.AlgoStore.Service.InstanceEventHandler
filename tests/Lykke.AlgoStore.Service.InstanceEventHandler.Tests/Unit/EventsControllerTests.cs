@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
 {
-    [TestFixture()]
+    [TestFixture]
     public class EventsControllerTests
     {
         private readonly Fixture _fixture = new Fixture();
