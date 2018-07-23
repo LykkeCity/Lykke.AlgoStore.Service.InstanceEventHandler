@@ -6,7 +6,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories
 {
     public interface IFunctionChartingUpdateRepository
     {
-        Task WriteAsync(FunctionChartingUpdate data);
         Task WriteAsync(IEnumerable<FunctionChartingUpdate> data);
     }
 }

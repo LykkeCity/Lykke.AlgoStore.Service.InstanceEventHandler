@@ -46,12 +46,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         [Explicit("This test will try to write data into local storage. Do not remove explicit attribute ever and use this just for local testing :)")]
         public void FunctionChartingUpdateRepository_SimpleUpdateData_WriteAsync_Test()
         {
-            var data = new FunctionChartingUpdate
+            var data = new List<FunctionChartingUpdate>
             {
-                FunctionName = $"Function - {DateTime.UtcNow}",
-                InstanceId = $"{Guid.NewGuid()}",
-                Value = (new Random()).NextDouble(),
-                InnerFunctions = new List<FunctionChartingUpdate>()
+                new FunctionChartingUpdate
+                {
+                    FunctionName = $"Function - {DateTime.UtcNow}",
+                    InstanceId = $"{Guid.NewGuid()}",
+                    Value = (new Random()).NextDouble(),
+                    InnerFunctions = new List<FunctionChartingUpdate>()
+                }
             };
 
             _repository.WriteAsync(data).Wait();
@@ -61,17 +64,21 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         [Explicit("This test will try to write data into local storage. Do not remove explicit attribute ever and use this just for local testing :)")]
         public void FunctionChartingUpdateRepository_ComplexUpdateData_WriteAsync_Test()
         {
-            var data = new FunctionChartingUpdate
+            var data = new List<FunctionChartingUpdate>
             {
-                FunctionName = $"Function - {DateTime.UtcNow}",
-                InstanceId = $"{Guid.NewGuid()}",
-                Value = (new Random()).NextDouble(),
-                InnerFunctions = new List<FunctionChartingUpdate> {
-                    new FunctionChartingUpdate
+                new FunctionChartingUpdate
+                {
+                    FunctionName = $"Function - {DateTime.UtcNow}",
+                    InstanceId = $"{Guid.NewGuid()}",
+                    Value = (new Random()).NextDouble(),
+                    InnerFunctions = new List<FunctionChartingUpdate>
                     {
-                        FunctionName = $"Function - {DateTime.UtcNow}",
-                        InstanceId = $"{Guid.NewGuid()}",
-                        Value = (new Random()).NextDouble()
+                        new FunctionChartingUpdate
+                        {
+                            FunctionName = $"Function - {DateTime.UtcNow}",
+                            InstanceId = $"{Guid.NewGuid()}",
+                            Value = (new Random()).NextDouble()
+                        }
                     }
                 }
             };
@@ -83,29 +90,34 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         [Explicit("This test will try to write data into local storage. Do not remove explicit attribute ever and use this just for local testing :)")]
         public void FunctionChartingUpdateRepository_MoreComplexUpdateData_WriteAsync_Test()
         {
-            var data = new FunctionChartingUpdate
+            var data = new List<FunctionChartingUpdate>
             {
-                FunctionName = $"Function - {DateTime.UtcNow}",
-                InstanceId = $"{Guid.NewGuid()}",
-                Value = (new Random()).NextDouble(),
-                InnerFunctions = new List<FunctionChartingUpdate> {
-                    new FunctionChartingUpdate
+                new FunctionChartingUpdate
+                {
+                    FunctionName = $"Function - {DateTime.UtcNow}",
+                    InstanceId = $"{Guid.NewGuid()}",
+                    Value = (new Random()).NextDouble(),
+                    InnerFunctions = new List<FunctionChartingUpdate>
                     {
-                        FunctionName = $"Function - {DateTime.UtcNow}",
-                        InstanceId = $"{Guid.NewGuid()}",
-                        Value = (new Random()).NextDouble(),
-                        InnerFunctions = new List<FunctionChartingUpdate> {
-                            new FunctionChartingUpdate
+                        new FunctionChartingUpdate
+                        {
+                            FunctionName = $"Function - {DateTime.UtcNow}",
+                            InstanceId = $"{Guid.NewGuid()}",
+                            Value = (new Random()).NextDouble(),
+                            InnerFunctions = new List<FunctionChartingUpdate>
                             {
-                                FunctionName = $"Function - {DateTime.UtcNow}",
-                                InstanceId = $"{Guid.NewGuid()}",
-                                Value = (new Random()).NextDouble()
-                            },
-                            new FunctionChartingUpdate
-                            {
-                                FunctionName = $"Function - {DateTime.UtcNow}",
-                                InstanceId = $"{Guid.NewGuid()}",
-                                Value = (new Random()).NextDouble()
+                                new FunctionChartingUpdate
+                                {
+                                    FunctionName = $"Function - {DateTime.UtcNow}",
+                                    InstanceId = $"{Guid.NewGuid()}",
+                                    Value = (new Random()).NextDouble()
+                                },
+                                new FunctionChartingUpdate
+                                {
+                                    FunctionName = $"Function - {DateTime.UtcNow}",
+                                    InstanceId = $"{Guid.NewGuid()}",
+                                    Value = (new Random()).NextDouble()
+                                }
                             }
                         }
                     }

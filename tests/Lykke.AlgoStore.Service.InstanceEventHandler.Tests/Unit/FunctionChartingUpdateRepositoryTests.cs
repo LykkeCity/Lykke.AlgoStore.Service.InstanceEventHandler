@@ -54,12 +54,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         }
 
         [Test]
-        public void WriteAsync_ForSingleEntity_Test()
-        {
-            _repository.WriteAsync(_functionChartingUpdate).Wait();
-        }
-
-        [Test]
         public void WriteAsync_MultipleEntities_Test()
         {
             _repository.WriteAsync(

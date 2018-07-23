@@ -30,16 +30,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories
             _table = table;
         }
 
-        public async Task WriteAsync(FunctionChartingUpdate data)
-        {
-            var entity = Mapper.Map<FunctionChartingUpdateEntity>(data);
-
-            entity.PartitionKey = GeneratePartitionKey(data.InstanceId);
-            entity.RowKey = GenerateRowKey();
-
-            await _table.InsertAsync(entity);
-        }
-
         public async Task WriteAsync(IEnumerable<FunctionChartingUpdate> data)
         {
             var batch = new TableBatchOperation();
