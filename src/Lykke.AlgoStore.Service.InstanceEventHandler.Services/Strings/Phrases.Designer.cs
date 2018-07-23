@@ -88,6 +88,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All trade values must have InstanceId provided.
+        /// </summary>
+        public static string InstanceIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("InstanceIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot save more then 100 function chart update records per batch.
         /// </summary>
         public static string MaxRecordsPerBatchReached {
@@ -102,6 +111,24 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string SameInstanceIdForAllFunctionValues {
             get {
                 return ResourceManager.GetString("SameInstanceIdForAllFunctionValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InstanceId must be the same for all trade values.
+        /// </summary>
+        public static string SameInstanceIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("SameInstanceIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade values cannot be empty.
+        /// </summary>
+        public static string TradeValuesCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("TradeValuesCannotBeEmpty", resourceCulture);
             }
         }
     }

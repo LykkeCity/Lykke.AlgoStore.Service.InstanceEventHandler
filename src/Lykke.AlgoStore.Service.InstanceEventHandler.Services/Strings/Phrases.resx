@@ -112,4 +112,13 @@
   <data name="AllFunctionNamesMustBeProvided" xml:space="preserve">
     <value>All function names must be provided</value>
   </data>
+  <data name="TradeValuesCannotBeEmpty" xml:space="preserve">
+    <value>Trade values cannot be empty</value>
+  </data>
+  <data name="SameInstanceIdForAllTradeValues" xml:space="preserve">
+    <value>InstanceId must be the same for all trade values</value>
+  </data>
+  <data name="InstanceIdForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have InstanceId provided</value>
+  </data>
 </root>

@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Utils;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
@@ -16,10 +21,32 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
         public async Task WriteAsync(IEnumerable<TradeChartingUpdate> trades)
         {
-            foreach (var trade in trades)
+            var tradeChartingUpdates = trades.ToList();
+
+            ValidateTradeChartingUpdateData(tradeChartingUpdates);
+
+            foreach (var trade in tradeChartingUpdates)
             {
                 await _tradeHandler.Handle(trade);
             }
+        }
+
+        private static void ValidateTradeChartingUpdateData(List<TradeChartingUpdate> tradeChartingUpdateData)
+        {
+            if(tradeChartingUpdateData == null)
+                throw new ArgumentNullException(nameof(tradeChartingUpdateData));
+
+            if (!tradeChartingUpdateData.Any())
+                throw new ValidationException(Phrases.TradeValuesCannotBeEmpty);
+
+            if (tradeChartingUpdateData.Count > 100)
+                throw new ValidationException(Phrases.MaxRecordsPerBatchReached);
+
+            if (tradeChartingUpdateData.Select(x => x.InstanceId).Distinct().Count() > 1)
+                throw new ValidationException(Phrases.SameInstanceIdForAllTradeValues);
+
+            if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.InstanceId)))
+                throw new ValidationException(Phrases.InstanceIdForAllTradeValues);
         }
     }
 }
