@@ -70,11 +70,29 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Candle values cannot be empty.
+        /// </summary>
+        public static string CandleValuesCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("CandleValuesCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function values cannot be empty.
         /// </summary>
         public static string FunctionValuesCannotBeEmpty {
             get {
                 return ResourceManager.GetString("FunctionValuesCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have InstanceId provided.
+        /// </summary>
+        public static string InstanceIdForAllCandleValues {
+            get {
+                return ResourceManager.GetString("InstanceIdForAllCandleValues", resourceCulture);
             }
         }
         
@@ -102,6 +120,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string MaxRecordsPerBatchReached {
             get {
                 return ResourceManager.GetString("MaxRecordsPerBatchReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InstanceId must be the same for all candle values.
+        /// </summary>
+        public static string SameInstanceIdForAllCandleValues {
+            get {
+                return ResourceManager.GetString("SameInstanceIdForAllCandleValues", resourceCulture);
             }
         }
         

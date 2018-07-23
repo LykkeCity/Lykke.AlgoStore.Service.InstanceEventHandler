@@ -121,4 +121,13 @@
   <data name="InstanceIdForAllTradeValues" xml:space="preserve">
     <value>All trade values must have InstanceId provided</value>
   </data>
+  <data name="CandleValuesCannotBeEmpty" xml:space="preserve">
+    <value>Candle values cannot be empty</value>
+  </data>
+  <data name="SameInstanceIdForAllCandleValues" xml:space="preserve">
+    <value>InstanceId must be the same for all candle values</value>
+  </data>
+  <data name="InstanceIdForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have InstanceId provided</value>
+  </data>
 </root>
