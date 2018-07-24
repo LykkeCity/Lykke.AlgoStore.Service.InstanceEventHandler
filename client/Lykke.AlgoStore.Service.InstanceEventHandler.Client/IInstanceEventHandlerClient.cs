@@ -13,13 +13,13 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Client
     [Headers("Authorization")]
     public interface IInstanceEventHandlerClient
     {
-        [Post("api/v1/events/handleCandles")]
+        [Post("/api/v1/events/handleCandles")]
         Task HandleCandlesAsync(List<CandleChartingUpdate> candles);
 
-        [Post("api/v1/events/handleTrades")]
+        [Post("/api/v1/events/handleTrades")]
         Task HandleTradesAsync(List<TradeChartingUpdate> trades);
 
-        [Post("api/v1/events/handleFunctions")]
+        [Post("/api/v1/events/handleFunctions")]
         Task HandleFunctionsAsync(List<FunctionChartingUpdate> functions);
     }
 }
