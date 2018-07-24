@@ -50,21 +50,21 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             {
                 ConnectionString = "amqp://lykke.history:lykke.history@rabbit-me.lykke-me.svc.cluster.local:5672",
                 ExchangeName = "lykke.algostore.instance-event-handler.candles",
-                QueueName = "CandleSubsriberTestQueue"
+                QueueName = $"lykke.algo-store.instance-chart-updates.quote-{Guid.NewGuid()}"
             };
 
             var tradeSubscriberSettings = new RabbitMqSubscriptionSettings
             {
                 ConnectionString = "amqp://lykke.history:lykke.history@rabbit-me.lykke-me.svc.cluster.local:5672",
                 ExchangeName = "lykke.algostore.instance-event-handler.trades",
-                QueueName = "TradeSubsriberTestQueue"
+                QueueName = $"lykke.algo-store.instance-chart-updates.trade-{Guid.NewGuid()}"
             };
 
             var functionSubscriberSettings = new RabbitMqSubscriptionSettings
             {
                 ConnectionString = "amqp://lykke.history:lykke.history@rabbit-me.lykke-me.svc.cluster.local:5672",
                 ExchangeName = "lykke.algostore.instance-event-handler.functions",
-                QueueName = "FunctionSubsriberTestQueue"
+                QueueName = $"lykke.algo-store.instance-chart-updates.function-{Guid.NewGuid()}"
             };
 
             _candleSubscriber = new RabbitMqSubscriber<CandleChartingUpdate>(
