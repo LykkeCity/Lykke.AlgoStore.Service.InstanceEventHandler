@@ -53,6 +53,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     FunctionName = $"Function - {DateTime.UtcNow}",
                     InstanceId = $"{Guid.NewGuid()}",
                     Value = (new Random()).NextDouble(),
+                    CalculatedOn = DateTime.UtcNow,
                     InnerFunctions = new List<FunctionChartingUpdate>()
                 }
             };
@@ -71,13 +72,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     FunctionName = $"Function - {DateTime.UtcNow}",
                     InstanceId = $"{Guid.NewGuid()}",
                     Value = (new Random()).NextDouble(),
+                    CalculatedOn = DateTime.UtcNow,
                     InnerFunctions = new List<FunctionChartingUpdate>
                     {
                         new FunctionChartingUpdate
                         {
                             FunctionName = $"Function - {DateTime.UtcNow}",
                             InstanceId = $"{Guid.NewGuid()}",
-                            Value = (new Random()).NextDouble()
+                            Value = (new Random()).NextDouble(),
+                            CalculatedOn = DateTime.UtcNow
                         }
                     }
                 }
@@ -97,6 +100,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     FunctionName = $"Function - {DateTime.UtcNow}",
                     InstanceId = $"{Guid.NewGuid()}",
                     Value = (new Random()).NextDouble(),
+                    CalculatedOn = DateTime.UtcNow,
                     InnerFunctions = new List<FunctionChartingUpdate>
                     {
                         new FunctionChartingUpdate
@@ -104,19 +108,22 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                             FunctionName = $"Function - {DateTime.UtcNow}",
                             InstanceId = $"{Guid.NewGuid()}",
                             Value = (new Random()).NextDouble(),
+                            CalculatedOn = DateTime.UtcNow,
                             InnerFunctions = new List<FunctionChartingUpdate>
                             {
                                 new FunctionChartingUpdate
                                 {
                                     FunctionName = $"Function - {DateTime.UtcNow}",
                                     InstanceId = $"{Guid.NewGuid()}",
-                                    Value = (new Random()).NextDouble()
+                                    Value = (new Random()).NextDouble(),
+                                    CalculatedOn = DateTime.UtcNow
                                 },
                                 new FunctionChartingUpdate
                                 {
                                     FunctionName = $"Function - {DateTime.UtcNow}",
                                     InstanceId = $"{Guid.NewGuid()}",
-                                    Value = (new Random()).NextDouble()
+                                    Value = (new Random()).NextDouble(),
+                                    CalculatedOn = DateTime.UtcNow
                                 }
                             }
                         }
