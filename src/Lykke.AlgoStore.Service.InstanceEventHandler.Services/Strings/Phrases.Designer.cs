@@ -115,7 +115,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot save more then 100 function chart update records per batch.
+        ///   Looks up a localized string similar to Cannot save more than 100 function chart update records per batch.
         /// </summary>
         public static string MaxRecordsPerBatchReached {
             get {

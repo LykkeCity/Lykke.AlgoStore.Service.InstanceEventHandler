@@ -101,7 +101,7 @@
     <value>Function values cannot be empty</value>
   </data>
   <data name="MaxRecordsPerBatchReached" xml:space="preserve">
-    <value>Cannot save more then 100 function chart update records per batch</value>
+    <value>Cannot save more than 100 function chart update records per batch</value>
   </data>
   <data name="SameInstanceIdForAllFunctionValues" xml:space="preserve">
     <value>InstanceId must be the same for all function values</value>
