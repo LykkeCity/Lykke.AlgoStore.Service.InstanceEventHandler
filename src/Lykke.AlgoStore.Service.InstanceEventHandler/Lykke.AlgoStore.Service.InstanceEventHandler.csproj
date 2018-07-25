@@ -22,6 +22,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.22" />
     <PackageReference Include="Lykke.AlgoStore.Security.InstanceAuth" Version="1.0.3" />
     <PackageReference Include="Lykke.Sdk" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
@@ -31,6 +32,10 @@
     <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories\Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.csproj" />
     <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.Core\Lykke.AlgoStore.Service.InstanceEventHandler.Core.csproj" />
     <ProjectReference Include="..\Lykke.AlgoStore.Service.InstanceEventHandler.Services\Lykke.AlgoStore.Service.InstanceEventHandler.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Requests\" />
+    <Folder Include="Models\Responses\" />
   </ItemGroup>
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <ItemGroup>
