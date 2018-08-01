@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoMapper;
+using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Mapper;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
+using Lykke.Common.Log;
 using Moq;
 using NUnit.Framework;
 
@@ -110,7 +112,12 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             repoMock.Setup(x => x.WriteAsync(It.IsAny<IEnumerable<FunctionChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
-            return new FunctionService(handlerMock.Object, repoMock.Object);
+            var logMock = new Mock<ILog>();
+            var logFactoryMock = new Mock<ILogFactory>();
+            logFactoryMock.Setup(x => x.CreateLog(It.IsAny<object>()))
+                .Returns(logMock.Object);
+
+            return new FunctionService(handlerMock.Object, repoMock.Object, logFactoryMock.Object);
         }
     }
 }

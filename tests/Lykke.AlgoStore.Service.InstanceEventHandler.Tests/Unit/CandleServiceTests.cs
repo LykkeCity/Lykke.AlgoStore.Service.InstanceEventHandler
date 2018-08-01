@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using AutoFixture;
+using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
+using Lykke.Common.Log;
 using Moq;
 using NUnit.Framework;
 
@@ -75,7 +77,12 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             var handlerMock = new Mock<IHandler<CandleChartingUpdate>>();
             handlerMock.Setup(x => x.Handle(It.IsAny<CandleChartingUpdate>())).Returns(Task.CompletedTask);
 
-            return new CandleService(handlerMock.Object);
+            var logMock = new Mock<ILog>();
+            var logFactoryMock = new Mock<ILogFactory>();
+            logFactoryMock.Setup(x => x.CreateLog(It.IsAny<object>()))
+                .Returns(logMock.Object);
+
+            return new CandleService(handlerMock.Object, logFactoryMock.Object);
         }
     }
 }

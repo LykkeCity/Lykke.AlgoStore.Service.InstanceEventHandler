@@ -3,30 +3,47 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
+using Lykke.Common.Log;
+using Newtonsoft.Json;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
     public class TradeService : ITradeService
     {
         private readonly IHandler<TradeChartingUpdate> _tradeHandler;
+        private readonly ILog _log;
 
-        public TradeService(IHandler<TradeChartingUpdate> tradeHandler)
+        public TradeService(IHandler<TradeChartingUpdate> tradeHandler, ILogFactory logFactory)
         {
             _tradeHandler = tradeHandler;
+            _log = logFactory.CreateLog(this);
         }
 
         public async Task WriteAsync(IEnumerable<TradeChartingUpdate> trades)
         {
             var tradeChartingUpdates = trades.ToList();
 
+            var tradesDetails = JsonConvert.SerializeObject(tradeChartingUpdates);
+
+            _log.Info($"Trades arrived. {tradesDetails}");
+
             ValidateTradeChartingUpdateData(tradeChartingUpdates);
+
+            _log.Info($"Trades validated. {tradesDetails}");
 
             foreach (var trade in tradeChartingUpdates)
             {
+                var tradeDetails = JsonConvert.SerializeObject(trade);
+
+                _log.Info($"Trade {tradeDetails} will be sent to RabbitMq");
+
                 await _tradeHandler.Handle(trade);
+
+                _log.Info($"Trade {tradeDetails} sent to RabbitMq");
             }
         }
 

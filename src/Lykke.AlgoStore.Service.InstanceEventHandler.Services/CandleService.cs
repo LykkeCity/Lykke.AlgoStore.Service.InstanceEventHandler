@@ -3,30 +3,47 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
+using Lykke.Common.Log;
+using Newtonsoft.Json;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
     public class CandleService : ICandleService
     {
         private readonly IHandler<CandleChartingUpdate> _candleHandler;
+        private readonly ILog _log;
 
-        public CandleService(IHandler<CandleChartingUpdate> candleHandler)
+        public CandleService(IHandler<CandleChartingUpdate> candleHandler, ILogFactory logFactory)
         {
             _candleHandler = candleHandler;
+            _log = logFactory.CreateLog(this);
         }
 
         public async Task WriteAsync(IEnumerable<CandleChartingUpdate> candles)
         {
             var candlesChartingUpdates = candles.ToList();
 
+            var candlesDetails = JsonConvert.SerializeObject(candlesChartingUpdates);
+
+            _log.Info($"Candles arrived. {candlesDetails}");
+
             ValidateCandlesChartingUpdateData(candlesChartingUpdates);
+
+            _log.Info($"Candles validated. {candlesDetails}");
 
             foreach (var candle in candlesChartingUpdates)
             {
+                var candleDetails = JsonConvert.SerializeObject(candle);
+
+                _log.Info($"Candle {candleDetails} will be sent to RabbitMq");
+
                 await _candleHandler.Handle(candle);
+
+                _log.Info($"Candle {candleDetails} sent to RabbitMq");
             }
         }
 
