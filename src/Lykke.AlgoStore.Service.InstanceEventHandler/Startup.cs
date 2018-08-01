@@ -7,12 +7,14 @@ using Lykke.AlgoStore.Security.InstanceAuth;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Filters;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Settings;
 using Lykke.Common.Api.Contract.Responses;
+using Lykke.Logs;
 using Lykke.Sdk;
 using Lykke.SettingsReader;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler
 {
@@ -59,6 +61,11 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler
 
                 options.Logs = logs =>
                 {
+                    if(Enum.TryParse(appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.LogLevel, true, out LogLevel logLevel))
+                        logs.Extended = builder => builder.SetMinimumLevel(logLevel);
+                    else
+                        logs.Extended = builder => builder.SetMinimumLevel(LogLevel.Error);
+
                     logs.AzureTableName = "AlgoInstanceEventHandlerLog";
                     logs.AzureTableConnectionStringResolver = settings => settings.AlgoStoreInstanceEventHandlerService.Db.LogsConnectionString;
 
