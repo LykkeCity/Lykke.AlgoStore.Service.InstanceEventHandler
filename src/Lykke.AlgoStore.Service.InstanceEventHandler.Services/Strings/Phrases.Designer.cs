@@ -70,6 +70,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authorization token does not correspond to provided Instance Ids.
+        /// </summary>
+        public static string AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds {
+            get {
+                return ResourceManager.GetString("AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Candle values cannot be empty.
         /// </summary>
         public static string CandleValuesCannotBeEmpty {

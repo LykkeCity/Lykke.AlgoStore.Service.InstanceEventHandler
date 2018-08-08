@@ -130,4 +130,7 @@
   <data name="InstanceIdForAllCandleValues" xml:space="preserve">
     <value>All candle values must have InstanceId provided</value>
   </data>
+  <data name="AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds" xml:space="preserve">
+    <value>Authorization token does not correspond to provided Instance Ids</value>
+  </data>
 </root>

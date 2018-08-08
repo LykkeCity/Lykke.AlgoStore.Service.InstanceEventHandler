@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Lykke.AlgoStore.Algo.Charting;
+using Lykke.AlgoStore.Security.InstanceAuth;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoreLinq;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
@@ -30,7 +34,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleCandles([FromBody] List<CandleChartingUpdate> candles)
         {
-            await _candleService.WriteAsync(candles);
+            var authToken = User.GetAuthToken();
+
+            await _candleService.WriteAsync(authToken, candles);
 
             return NoContent();
         }
@@ -40,7 +46,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleTrades([FromBody] List<TradeChartingUpdate> trades)
         {
-            await _tradeService.WriteAsync(trades);
+            var authToken = User.GetAuthToken();
+
+            await _tradeService.WriteAsync(authToken, trades);
 
             return NoContent();
         }
@@ -50,7 +58,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleFunctions([FromBody] List<FunctionChartingUpdate> functions)
         {
-            await _functionService.WriteAsync(functions);
+            var authToken = User.GetAuthToken();
+
+            await _functionService.WriteAsync(authToken, functions);
 
             return NoContent();
         }

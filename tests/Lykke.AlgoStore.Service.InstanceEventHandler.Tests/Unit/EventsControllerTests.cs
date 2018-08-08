@@ -7,6 +7,7 @@ using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Mapper;
 using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Controllers;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -21,6 +22,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         private Mock<ITradeService> _tradeServiceMock;
         private Mock<IFunctionService> _functionServiceMock;
         private EventsController _controller;
+        private Mock<HttpContext> _httpContextMock;
 
         [SetUp]
         public void SetUp()
@@ -39,19 +41,25 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             Mapper.AssertConfigurationIsValid();
 
             _candleServiceMock = new Mock<ICandleService>();
-            _candleServiceMock.Setup(x => x.WriteAsync(It.IsAny<IEnumerable<CandleChartingUpdate>>()))
+            _candleServiceMock.Setup(x =>
+                    x.WriteAsync(It.IsAny<string>(), It.IsAny<IEnumerable<CandleChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
             _tradeServiceMock = new Mock<ITradeService>();
-            _tradeServiceMock.Setup(x => x.WriteAsync(It.IsAny<IEnumerable<TradeChartingUpdate>>()))
+            _tradeServiceMock.Setup(x => x.WriteAsync(It.IsAny<string>(), It.IsAny<IEnumerable<TradeChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
             _functionServiceMock = new Mock<IFunctionService>();
-            _functionServiceMock.Setup(x => x.WriteAsync(It.IsAny<IEnumerable<FunctionChartingUpdate>>()))
+            _functionServiceMock.Setup(x =>
+                    x.WriteAsync(It.IsAny<string>(), It.IsAny<IEnumerable<FunctionChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
+            _httpContextMock = new Mock<HttpContext>();
+            _httpContextMock.Setup(x => x.Request.Headers.Add("TEST", It.IsAny<string>()));
+
             _controller = new EventsController(_candleServiceMock.Object, _tradeServiceMock.Object,
-                _functionServiceMock.Object);
+                    _functionServiceMock.Object)
+                {ControllerContext = new ControllerContext {HttpContext = _httpContextMock.Object}};
         }
 
         [Test]
