@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Common.Log;
+using Lykke.Common.Api.Contract.Responses;
 using Lykke.Common.Log;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -76,7 +77,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Infrastructure
                     break;
             }
 
-            var responseJson = JsonConvert.SerializeObject(errorMessage);
+            var responseJson = JsonConvert.SerializeObject(ErrorResponse.Create(errorMessage));
 
             await ctx.Response.WriteAsync(responseJson);
         }
