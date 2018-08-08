@@ -22,8 +22,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.22" />
-    <PackageReference Include="Lykke.AlgoStore.Security.InstanceAuth" Version="1.0.3" />
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.24" />
+    <PackageReference Include="Lykke.AlgoStore.Security.InstanceAuth" Version="1.0.5" />
     <PackageReference Include="Lykke.Sdk" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />

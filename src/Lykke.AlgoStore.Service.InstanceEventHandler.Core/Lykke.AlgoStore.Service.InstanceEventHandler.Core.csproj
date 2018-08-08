@@ -6,8 +6,8 @@
     <Version>1.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.22" />
-    <PackageReference Include="Lykke.Common" Version="7.0.1" />
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.24" />
+    <PackageReference Include="Lykke.Common" Version="7.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\" />
