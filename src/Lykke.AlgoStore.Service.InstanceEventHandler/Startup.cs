@@ -1,12 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using JetBrains.Annotations;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Mapper;
 using Lykke.AlgoStore.Security.InstanceAuth;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Filters;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Settings;
-using Lykke.Common.Api.Contract.Responses;
 using Lykke.Logs;
 using Lykke.Sdk;
 using Lykke.SettingsReader;
@@ -14,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using GlobalErrorHandlerMiddleware = Lykke.AlgoStore.Service.InstanceEventHandler.Infrastructure.GlobalErrorHandlerMiddleware;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler
@@ -97,25 +96,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler
 
             app.UseLykkeConfiguration(opt =>
             {
-                opt.DefaultErrorHandler = ex =>
-                {
-                    string errorMessage;
-
-                    switch (ex)
-                    {
-                        case InvalidOperationException ioe:
-                            errorMessage = $"Invalid operation: {ioe.Message}";
-                            break;
-                        case ValidationException ve:
-                            errorMessage = $"Validation error: {ve.Message}";
-                            break;
-                        default:
-                            errorMessage = "Technical problem";
-                            break;
-                    }
-
-                    return ErrorResponse.Create(errorMessage);
-                };
+                opt.WithMiddleware = appBuilder => { appBuilder.UseMiddleware<GlobalErrorHandlerMiddleware>(); };
             });
         }
     }
