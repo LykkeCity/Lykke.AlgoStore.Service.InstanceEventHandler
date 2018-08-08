@@ -6,6 +6,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services
 {
     public interface IFunctionService
     {
-        Task WriteAsync(IEnumerable<FunctionChartingUpdate> functions);
+        Task WriteAsync(string authToken, IEnumerable<FunctionChartingUpdate> functions);
     }
 }

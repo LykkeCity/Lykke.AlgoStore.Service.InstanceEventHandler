@@ -6,6 +6,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services
 {
     public interface ICandleService
     {
-        Task WriteAsync(IEnumerable<CandleChartingUpdate> candles);
+        Task WriteAsync(string authToken, IEnumerable<CandleChartingUpdate> candles);
     }
 }

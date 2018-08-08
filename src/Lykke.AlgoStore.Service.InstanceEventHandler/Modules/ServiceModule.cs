@@ -15,6 +15,8 @@ using Lykke.Logs;
 using Lykke.Logs.Loggers.LykkeConsole;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.SettingsReader;
+using FunctionChartingUpdateRepository = Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.FunctionChartingUpdateRepository;
+using IFunctionChartingUpdateRepository = Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories.IFunctionChartingUpdateRepository;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
 {

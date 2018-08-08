@@ -6,6 +6,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services
 {
     public interface ITradeService
     {
-        Task WriteAsync(IEnumerable<TradeChartingUpdate> trades);
+        Task WriteAsync(string authToken, IEnumerable<TradeChartingUpdate> trades);
     }
 }
