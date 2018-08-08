@@ -63,10 +63,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                 .As<IFunctionChartingUpdateRepository>()
                 .SingleInstance();
 
-            builder.RegisterInstance(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.RateLimitSettings)
-                .AsSelf()
-                .SingleInstance();
-
             var rabbitMqCandlesSettings = new RabbitMqSubscriptionSettings
             {
                 ConnectionString = _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService

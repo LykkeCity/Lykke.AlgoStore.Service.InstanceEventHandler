@@ -9,7 +9,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Settings
     {
         public DbSettings Db { get; set; }
         public InstanceAuthSettings InstanceAuthSettings { get; set; }
-        public RateLimitSettings RateLimitSettings { get; set; }
         public RealTimeDataSettings RealTimeDataStreamingSettings { get; set; }
         public string LogLevel { get; set; }
     }
