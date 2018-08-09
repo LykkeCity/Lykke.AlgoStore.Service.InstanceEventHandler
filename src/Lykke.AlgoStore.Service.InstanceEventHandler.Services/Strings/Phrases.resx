@@ -107,7 +107,7 @@
     <value>InstanceId must be the same for all function values</value>
   </data>
   <data name="InstanceIdForAllFunctionValues" xml:space="preserve">
-    <value>All function values must have InstanceId provided</value>
+    <value>All function values must have InstanceId value provided</value>
   </data>
   <data name="AllFunctionNamesMustBeProvided" xml:space="preserve">
     <value>All function names must be provided</value>
@@ -119,7 +119,7 @@
     <value>InstanceId must be the same for all trade values</value>
   </data>
   <data name="InstanceIdForAllTradeValues" xml:space="preserve">
-    <value>All trade values must have InstanceId provided</value>
+    <value>All trade values must have InstanceId value provided</value>
   </data>
   <data name="CandleValuesCannotBeEmpty" xml:space="preserve">
     <value>Candle values cannot be empty</value>
@@ -128,9 +128,33 @@
     <value>InstanceId must be the same for all candle values</value>
   </data>
   <data name="InstanceIdForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have InstanceId provided</value>
+    <value>All candle values must have InstanceId value provided</value>
   </data>
   <data name="AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds" xml:space="preserve">
     <value>Authorization token does not correspond to provided Instance Ids</value>
+  </data>
+  <data name="DateTimeForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have DateTime provided</value>
+  </data>
+  <data name="OpenForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have Open value provided</value>
+  </data>
+  <data name="CloseForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have Close value provided</value>
+  </data>
+  <data name="HighForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have High value provided</value>
+  </data>
+  <data name="LowForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have Low value provided</value>
+  </data>
+  <data name="TradingVolumeForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have TradingVolume value provided</value>
+  </data>
+  <data name="TradingOppositeVolumeForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have TradingOppositeVolume value provided</value>
+  </data>
+  <data name="LastTradePriceForAllCandleValues" xml:space="preserve">
+    <value>All candle values must have LastTradePrice value provided</value>
   </data>
 </root>
