@@ -61,11 +61,20 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All function names must be provided.
+        ///   Looks up a localized string similar to All trade values must have AssetId value provided.
         /// </summary>
-        public static string AllFunctionNamesMustBeProvided {
+        public static string AssetIdForAllTradeValues {
             get {
-                return ResourceManager.GetString("AllFunctionNamesMustBeProvided", resourceCulture);
+                return ResourceManager.GetString("AssetIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All trade values must have AssetPairId value provided.
+        /// </summary>
+        public static string AssetPairIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("AssetPairIdForAllTradeValues", resourceCulture);
             }
         }
         
@@ -79,11 +88,47 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All function values must have CalculatedOn value provided.
+        /// </summary>
+        public static string CalculatedOnForAllFunctionValues {
+            get {
+                return ResourceManager.GetString("CalculatedOnForAllFunctionValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Candle values cannot be empty.
         /// </summary>
         public static string CandleValuesCannotBeEmpty {
             get {
                 return ResourceManager.GetString("CandleValuesCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have Close value provided.
+        /// </summary>
+        public static string CloseForAllCandleValues {
+            get {
+                return ResourceManager.GetString("CloseForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have DateTime provided.
+        /// </summary>
+        public static string DateTimeForAllCandleValues {
+            get {
+                return ResourceManager.GetString("DateTimeForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All function values must have FunctionName value provided.
+        /// </summary>
+        public static string FunctionNameForAllFunctionValues {
+            get {
+                return ResourceManager.GetString("FunctionNameForAllFunctionValues", resourceCulture);
             }
         }
         
@@ -97,7 +142,25 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All candle values must have InstanceId provided.
+        ///   Looks up a localized string similar to All candle values must have High value provided.
+        /// </summary>
+        public static string HighForAllCandleValues {
+            get {
+                return ResourceManager.GetString("HighForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All trade values must have Id value provided.
+        /// </summary>
+        public static string IdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("IdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have InstanceId value provided.
         /// </summary>
         public static string InstanceIdForAllCandleValues {
             get {
@@ -106,7 +169,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All function values must have InstanceId provided.
+        ///   Looks up a localized string similar to All function values must have InstanceId value provided.
         /// </summary>
         public static string InstanceIdForAllFunctionValues {
             get {
@@ -115,11 +178,29 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All trade values must have InstanceId provided.
+        ///   Looks up a localized string similar to All trade values must have InstanceId value provided.
         /// </summary>
         public static string InstanceIdForAllTradeValues {
             get {
                 return ResourceManager.GetString("InstanceIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have LastTradePrice value provided.
+        /// </summary>
+        public static string LastTradePriceForAllCandleValues {
+            get {
+                return ResourceManager.GetString("LastTradePriceForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have Low value provided.
+        /// </summary>
+        public static string LowForAllCandleValues {
+            get {
+                return ResourceManager.GetString("LowForAllCandleValues", resourceCulture);
             }
         }
         
@@ -129,6 +210,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string MaxRecordsPerBatchReached {
             get {
                 return ResourceManager.GetString("MaxRecordsPerBatchReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have Open value provided.
+        /// </summary>
+        public static string OpenForAllCandleValues {
+            get {
+                return ResourceManager.GetString("OpenForAllCandleValues", resourceCulture);
             }
         }
         
@@ -165,6 +255,42 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string TradeValuesCannotBeEmpty {
             get {
                 return ResourceManager.GetString("TradeValuesCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have TradingOppositeVolume value provided.
+        /// </summary>
+        public static string TradingOppositeVolumeForAllCandleValues {
+            get {
+                return ResourceManager.GetString("TradingOppositeVolumeForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All candle values must have TradingVolume value provided.
+        /// </summary>
+        public static string TradingVolumeForAllCandleValues {
+            get {
+                return ResourceManager.GetString("TradingVolumeForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All function values must have Value value provided.
+        /// </summary>
+        public static string ValueForAllFunctionValues {
+            get {
+                return ResourceManager.GetString("ValueForAllFunctionValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All trade values must have WalletId value provided.
+        /// </summary>
+        public static string WalletIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("WalletIdForAllTradeValues", resourceCulture);
             }
         }
     }

@@ -9,6 +9,7 @@ using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.Common.Log;
 using Moq;
 using NUnit.Framework;
@@ -36,7 +37,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         [Test]
         public void WriteAsync_ForEmptyRequest_WillThrowException_Test()
         {
-            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), new List<CandleChartingUpdate>()));
+            Assert.ThrowsAsync<ValidationException>(() =>
+                _service.WriteAsync(It.IsAny<string>(), new List<CandleChartingUpdate>()));
         }
 
         [Test]
@@ -72,6 +74,162 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         {
             var request = _fixture.Build<CandleChartingUpdate>().With(x => x.InstanceId, "TEST").CreateMany(1);
             _service.WriteAsync(It.IsAny<string>(), request).Wait();
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingDateTime_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.DateTimeForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingOpenValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.OpenForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingCloseValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow,
+                    Open = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.CloseForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingHighValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow,
+                    Open = 1,
+                    Close = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.HighForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingLowValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow,
+                    Open = 1,
+                    Close = 1,
+                    High = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.LowForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingTradingVolumeValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow,
+                    Open = 1,
+                    Close = 1,
+                    High = 1,
+                    Low = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.TradingVolumeForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingTradingOppositeVolumeValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow,
+                    Open = 1,
+                    Close = 1,
+                    High = 1,
+                    Low = 1,
+                    TradingVolume = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.TradingOppositeVolumeForAllCandleValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingLastTradePriceValue_WillThrowException_Test()
+        {
+            var request = new List<CandleChartingUpdate>
+            {
+                new CandleChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    DateTime = DateTime.UtcNow,
+                    Open = 1,
+                    Close = 1,
+                    High = 1,
+                    Low = 1,
+                    TradingVolume = 1,
+                    TradingOppositeVolume = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.LastTradePriceForAllCandleValues));
         }
 
         private ICandleService MockService()

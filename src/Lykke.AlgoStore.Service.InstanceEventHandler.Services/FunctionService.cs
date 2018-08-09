@@ -87,14 +87,20 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (flattenedData.Any(x => string.IsNullOrEmpty(x.InstanceId)))
                 throw new ValidationException(Phrases.InstanceIdForAllFunctionValues);
 
-            if (flattenedData.Any(x => string.IsNullOrEmpty(x.FunctionName)))
-                throw new ValidationException(Phrases.AllFunctionNamesMustBeProvided);
-
             var instance = await _algoClientInstanceRepository.GetAlgoInstanceDataByAuthTokenAsync(authToken);
             var providedInstanceId = flattenedData.Select(x => x.InstanceId).First();
 
             if (instance.InstanceId != providedInstanceId)
                 throw new ValidationException(Phrases.AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds);
+
+            if(flattenedData.Any(x => string.IsNullOrEmpty(x.FunctionName)))
+                throw new ValidationException(Phrases.FunctionNameForAllFunctionValues);
+
+            if (flattenedData.Any(x => x.CalculatedOn == default(DateTime)))
+                throw new ValidationException(Phrases.CalculatedOnForAllFunctionValues);
+
+            if (flattenedData.Any(x => (decimal)x.Value == default(decimal)))
+                throw new ValidationException(Phrases.ValueForAllFunctionValues);
         }
     }
 }

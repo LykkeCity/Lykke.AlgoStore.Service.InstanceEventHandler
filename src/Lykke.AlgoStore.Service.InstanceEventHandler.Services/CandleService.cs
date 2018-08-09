@@ -74,6 +74,30 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             if (instance.InstanceId != providedInstanceId)
                 throw new ValidationException(Phrases.AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds);
+
+            if (candlesChartingUpdateData.Any(x => x.DateTime == default(DateTime)))
+                throw new ValidationException(Phrases.DateTimeForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.Open == default(decimal)))
+                throw new ValidationException(Phrases.OpenForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.Close == default(decimal)))
+                throw new ValidationException(Phrases.CloseForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.High == default(decimal)))
+                throw new ValidationException(Phrases.HighForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.Low == default(decimal)))
+                throw new ValidationException(Phrases.LowForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.TradingVolume == default(decimal)))
+                throw new ValidationException(Phrases.TradingVolumeForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.TradingOppositeVolume == default(decimal)))
+                throw new ValidationException(Phrases.TradingOppositeVolumeForAllCandleValues);
+
+            if (candlesChartingUpdateData.Any(x => (decimal)x.LastTradePrice == default(decimal)))
+                throw new ValidationException(Phrases.LastTradePriceForAllCandleValues);
         }
     }
 }
