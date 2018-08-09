@@ -93,10 +93,10 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (tradeChartingUpdateData.Any(x => !x.IsBuy.HasValue))
                 throw new ValidationException(Phrases.IsBuyForAllTradeValues);
 
-            if (tradeChartingUpdateData.Any(x => !x.Price.HasValue))
+            if (tradeChartingUpdateData.Any(x => !x.Price.HasValue || (x.Price.HasValue && x.Price.Value <= 0)))
                 throw new ValidationException(Phrases.PriceForAllTradeValues);
 
-            if (tradeChartingUpdateData.Any(x => !x.Amount.HasValue))
+            if (tradeChartingUpdateData.Any(x => !x.Amount.HasValue || (x.Amount.HasValue && x.Amount.Value <= 0)))
                 throw new ValidationException(Phrases.AmountForAllTradeValues);
         }
     }

@@ -61,7 +61,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All trade values must have Amount value provided.
+        ///   Looks up a localized string similar to All trade values must have Amount value provided and greater then 0.
         /// </summary>
         public static string AmountForAllTradeValues {
             get {
@@ -241,7 +241,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All trade values must have Price value provided.
+        ///   Looks up a localized string similar to All trade values must have Price value provided and greater then 0.
         /// </summary>
         public static string PriceForAllTradeValues {
             get {

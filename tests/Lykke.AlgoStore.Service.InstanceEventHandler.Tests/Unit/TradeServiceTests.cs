@@ -210,6 +210,52 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         }
 
         [Test]
+        public void WriteAsync_ForRequest_WithZeroPriceValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 0
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithNegativePriceValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = -1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
+        }
+
+        [Test]
         public void WriteAsync_ForRequest_WithMissingAmountValue_WillThrowException_Test()
         {
             var request = new List<TradeChartingUpdate>
@@ -224,6 +270,54 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true,
                     Price = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithZeroAmountValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 1,
+                    Amount = 0
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithNegativeAmountValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 1,
+                    Amount = -1
                 }
             };
 
