@@ -74,6 +74,18 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             if (instance.InstanceId != providedInstanceId)
                 throw new ValidationException(Phrases.AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds);
+
+            if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.Id)))
+                throw new ValidationException(Phrases.IdForAllTradeValues);
+
+            if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.AssetPairId)))
+                throw new ValidationException(Phrases.AssetPairIdForAllTradeValues);
+
+            if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.AssetId)))
+                throw new ValidationException(Phrases.AssetIdForAllTradeValues);
+
+            if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.WalletId)))
+                throw new ValidationException(Phrases.WalletIdForAllTradeValues);
         }
     }
 }

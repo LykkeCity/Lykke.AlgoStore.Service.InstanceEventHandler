@@ -163,4 +163,16 @@
   <data name="ValueForAllFunctionValues" xml:space="preserve">
     <value>All function values must have Value value provided</value>
   </data>
+  <data name="IdForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have Id value provided</value>
+  </data>
+  <data name="AssetPairIdForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have AssetPairId value provided</value>
+  </data>
+  <data name="AssetIdForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have AssetId value provided</value>
+  </data>
+  <data name="WalletIdForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have WalletId value provided</value>
+  </data>
 </root>

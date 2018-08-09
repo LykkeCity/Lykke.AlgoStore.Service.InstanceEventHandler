@@ -61,6 +61,24 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All trade values must have AssetId value provided.
+        /// </summary>
+        public static string AssetIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("AssetIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All trade values must have AssetPairId value provided.
+        /// </summary>
+        public static string AssetPairIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("AssetPairIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authorization token does not correspond to provided Instance Ids.
         /// </summary>
         public static string AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds {
@@ -129,6 +147,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string HighForAllCandleValues {
             get {
                 return ResourceManager.GetString("HighForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All trade values must have Id value provided.
+        /// </summary>
+        public static string IdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("IdForAllTradeValues", resourceCulture);
             }
         }
         
@@ -255,6 +282,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string ValueForAllFunctionValues {
             get {
                 return ResourceManager.GetString("ValueForAllFunctionValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All trade values must have WalletId value provided.
+        /// </summary>
+        public static string WalletIdForAllTradeValues {
+            get {
+                return ResourceManager.GetString("WalletIdForAllTradeValues", resourceCulture);
             }
         }
     }

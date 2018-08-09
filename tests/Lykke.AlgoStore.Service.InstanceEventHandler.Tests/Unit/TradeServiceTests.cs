@@ -9,6 +9,7 @@ using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.Common.Log;
 using Moq;
 using NUnit.Framework;
@@ -36,7 +37,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         [Test]
         public void WriteAsync_ForEmptyRequest_WillThrowException_Test()
         {
-            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), new List<TradeChartingUpdate>()));
+            Assert.ThrowsAsync<ValidationException>(() =>
+                _service.WriteAsync(It.IsAny<string>(), new List<TradeChartingUpdate>()));
         }
 
         [Test]
@@ -72,6 +74,76 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         {
             var request = _fixture.Build<TradeChartingUpdate>().With(x => x.InstanceId, "TEST").CreateMany(1);
             _service.WriteAsync(It.IsAny<string>(), request).Wait();
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingIdValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.IdForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingAssetPairIdValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AssetPairIdForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingAssetIdValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AssetIdForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingWalletIdValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.WalletIdForAllTradeValues));
         }
 
         private ITradeService MockService()
