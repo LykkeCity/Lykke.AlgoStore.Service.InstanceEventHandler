@@ -146,6 +146,186 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             Assert.That(ex.Message, Is.EqualTo(Phrases.WalletIdForAllTradeValues));
         }
 
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingDateOfTradeValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.DateOfTradeForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingIsBuyValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.IsBuyForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingPriceValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithZeroPriceValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 0
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithNegativePriceValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = -1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingAmountValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithZeroAmountValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 1,
+                    Amount = 0
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithNegativeAmountValue_WillThrowException_Test()
+        {
+            var request = new List<TradeChartingUpdate>
+            {
+                new TradeChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    Id = "TEST",
+                    AssetPairId = "TEST",
+                    AssetId = "TEST",
+                    WalletId = "TEST",
+                    DateOfTrade = DateTime.UtcNow,
+                    IsBuy = true,
+                    Price = 1,
+                    Amount = -1
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
+        }
+
         private ITradeService MockService()
         {
             var handlerMock = new Mock<IHandler<TradeChartingUpdate>>();
