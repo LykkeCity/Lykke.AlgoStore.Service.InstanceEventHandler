@@ -134,25 +134,16 @@
     <value>All candle values must have DateTime provided</value>
   </data>
   <data name="OpenForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have Open value provided</value>
+    <value>All candle values must have Open value provided and greater then 0</value>
   </data>
   <data name="CloseForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have Close value provided</value>
+    <value>All candle values must have Close value provided and greater then 0</value>
   </data>
   <data name="HighForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have High value provided</value>
+    <value>All candle values must have High value provided and greater then 0</value>
   </data>
   <data name="LowForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have Low value provided</value>
-  </data>
-  <data name="TradingVolumeForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have TradingVolume value provided</value>
-  </data>
-  <data name="TradingOppositeVolumeForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have TradingOppositeVolume value provided</value>
-  </data>
-  <data name="LastTradePriceForAllCandleValues" xml:space="preserve">
-    <value>All candle values must have LastTradePrice value provided</value>
+    <value>All candle values must have Low value provided and greater then 0</value>
   </data>
   <data name="FunctionNameForAllFunctionValues" xml:space="preserve">
     <value>All function values must have FunctionName value provided</value>
