@@ -21,5 +21,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Client
 
         [Post("/api/v1/events/handleFunctions")]
         Task HandleFunctionsAsync(List<FunctionChartingUpdate> functions);
+
+        [Post("/api/v1/events/handleQuotes")]
+        Task HandleQuotesAsync(List<QuoteChartingUpdate> quotes);
     }
 }
