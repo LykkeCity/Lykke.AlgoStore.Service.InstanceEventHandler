@@ -12,6 +12,7 @@ using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
+using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.Common.Log;
 using Moq;
 using NUnit.Framework;
@@ -105,6 +106,57 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     _fixture.Build<FunctionChartingUpdate>().With(x => x.InstanceId, "TEST").CreateMany(3).ToList())
                 .CreateMany(1);
             _service.WriteAsync(It.IsAny<string>(), request).Wait();
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingFunctionNameValue_WillThrowException_Test()
+        {
+            var request = new List<FunctionChartingUpdate>
+            {
+                new FunctionChartingUpdate
+                {
+                    InstanceId = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.FunctionNameForAllFunctionValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingCalculatedOnValue_WillThrowException_Test()
+        {
+            var request = new List<FunctionChartingUpdate>
+            {
+                new FunctionChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    FunctionName = "TEST"
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.CalculatedOnForAllFunctionValues));
+        }
+
+        [Test]
+        public void WriteAsync_ForRequest_WithMissingValueValue_WillThrowException_Test()
+        {
+            var request = new List<FunctionChartingUpdate>
+            {
+                new FunctionChartingUpdate
+                {
+                    InstanceId = "TEST",
+                    FunctionName = "TEST",
+                    CalculatedOn = DateTime.UtcNow
+                }
+            };
+
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+
+            Assert.That(ex.Message, Is.EqualTo(Phrases.ValueForAllFunctionValues));
         }
 
         private IFunctionService MockService()

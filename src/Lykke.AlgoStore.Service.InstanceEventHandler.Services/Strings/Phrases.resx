@@ -109,9 +109,6 @@
   <data name="InstanceIdForAllFunctionValues" xml:space="preserve">
     <value>All function values must have InstanceId value provided</value>
   </data>
-  <data name="AllFunctionNamesMustBeProvided" xml:space="preserve">
-    <value>All function names must be provided</value>
-  </data>
   <data name="TradeValuesCannotBeEmpty" xml:space="preserve">
     <value>Trade values cannot be empty</value>
   </data>
@@ -156,5 +153,14 @@
   </data>
   <data name="LastTradePriceForAllCandleValues" xml:space="preserve">
     <value>All candle values must have LastTradePrice value provided</value>
+  </data>
+  <data name="FunctionNameForAllFunctionValues" xml:space="preserve">
+    <value>All function values must have FunctionName value provided</value>
+  </data>
+  <data name="CalculatedOnForAllFunctionValues" xml:space="preserve">
+    <value>All function values must have CalculatedOn value provided</value>
+  </data>
+  <data name="ValueForAllFunctionValues" xml:space="preserve">
+    <value>All function values must have Value value provided</value>
   </data>
 </root>

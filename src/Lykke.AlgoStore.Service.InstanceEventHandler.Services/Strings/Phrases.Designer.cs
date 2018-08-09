@@ -61,20 +61,20 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All function names must be provided.
-        /// </summary>
-        public static string AllFunctionNamesMustBeProvided {
-            get {
-                return ResourceManager.GetString("AllFunctionNamesMustBeProvided", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Authorization token does not correspond to provided Instance Ids.
         /// </summary>
         public static string AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds {
             get {
                 return ResourceManager.GetString("AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All function values must have CalculatedOn value provided.
+        /// </summary>
+        public static string CalculatedOnForAllFunctionValues {
+            get {
+                return ResourceManager.GetString("CalculatedOnForAllFunctionValues", resourceCulture);
             }
         }
         
@@ -102,6 +102,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string DateTimeForAllCandleValues {
             get {
                 return ResourceManager.GetString("DateTimeForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All function values must have FunctionName value provided.
+        /// </summary>
+        public static string FunctionNameForAllFunctionValues {
+            get {
+                return ResourceManager.GetString("FunctionNameForAllFunctionValues", resourceCulture);
             }
         }
         
@@ -237,6 +246,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string TradingVolumeForAllCandleValues {
             get {
                 return ResourceManager.GetString("TradingVolumeForAllCandleValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All function values must have Value value provided.
+        /// </summary>
+        public static string ValueForAllFunctionValues {
+            get {
+                return ResourceManager.GetString("ValueForAllFunctionValues", resourceCulture);
             }
         }
     }
