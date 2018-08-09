@@ -175,4 +175,16 @@
   <data name="WalletIdForAllTradeValues" xml:space="preserve">
     <value>All trade values must have WalletId value provided</value>
   </data>
+  <data name="DateOfTradeForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have DateOfTrade value provided</value>
+  </data>
+  <data name="IsBuyForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have IsBuy value provided</value>
+  </data>
+  <data name="PriceForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have Price value provided</value>
+  </data>
+  <data name="AmountForAllTradeValues" xml:space="preserve">
+    <value>All trade values must have Amount value provided</value>
+  </data>
 </root>
