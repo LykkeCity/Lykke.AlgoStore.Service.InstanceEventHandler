@@ -98,9 +98,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             if (flattenedData.Any(x => x.CalculatedOn == default(DateTime)))
                 throw new ValidationException(Phrases.CalculatedOnForAllFunctionValues);
-
-            if (flattenedData.Any(x => (decimal)x.Value == default(decimal)))
-                throw new ValidationException(Phrases.ValueForAllFunctionValues);
         }
     }
 }

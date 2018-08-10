@@ -141,24 +141,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             Assert.That(ex.Message, Is.EqualTo(Phrases.CalculatedOnForAllFunctionValues));
         }
 
-        [Test]
-        public void WriteAsync_ForRequest_WithMissingValueValue_WillThrowException_Test()
-        {
-            var request = new List<FunctionChartingUpdate>
-            {
-                new FunctionChartingUpdate
-                {
-                    InstanceId = "TEST",
-                    FunctionName = "TEST",
-                    CalculatedOn = DateTime.UtcNow
-                }
-            };
-
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
-
-            Assert.That(ex.Message, Is.EqualTo(Phrases.ValueForAllFunctionValues));
-        }
-
         private IFunctionService MockService()
         {
             var handlerMock = new Mock<IHandler<FunctionChartingUpdate>>();

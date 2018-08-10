@@ -286,15 +286,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All function values must have Value value provided.
-        /// </summary>
-        public static string ValueForAllFunctionValues {
-            get {
-                return ResourceManager.GetString("ValueForAllFunctionValues", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All trade values must have WalletId value provided.
         /// </summary>
         public static string WalletIdForAllTradeValues {

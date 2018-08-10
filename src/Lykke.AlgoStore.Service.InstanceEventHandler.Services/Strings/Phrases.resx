@@ -151,9 +151,6 @@
   <data name="CalculatedOnForAllFunctionValues" xml:space="preserve">
     <value>All function values must have CalculatedOn value provided</value>
   </data>
-  <data name="ValueForAllFunctionValues" xml:space="preserve">
-    <value>All function values must have Value value provided</value>
-  </data>
   <data name="IdForAllTradeValues" xml:space="preserve">
     <value>All trade values must have Id value provided</value>
   </data>
