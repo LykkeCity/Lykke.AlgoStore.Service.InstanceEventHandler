@@ -90,11 +90,19 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                 IsDurable = true
             };
 
+            var rabbitMqQuotesSettings = new RabbitMqSubscriptionSettings
+            {
+                ConnectionString = _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.RealTimeDataStreamingSettings.RabbitMqSources.Quotes.ConnectionString,
+                ExchangeName = _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.RealTimeDataStreamingSettings.RabbitMqSources.Quotes.ExchangeName,
+                IsDurable = true
+            };
+
             var logFactory = LogFactory.Create().AddConsole();
 
             RegisterRabbitMqHandler<CandleChartingUpdate>(builder, rabbitMqCandlesSettings, logFactory, "candleHandler");
             RegisterRabbitMqHandler<TradeChartingUpdate>(builder, rabbitMqTradesSettings, logFactory, "tradeHandler");
             RegisterRabbitMqHandler<FunctionChartingUpdate>(builder, rabbitMqFunctionsSettings, logFactory, "functionHandler");
+            RegisterRabbitMqHandler<QuoteChartingUpdate>(builder, rabbitMqQuotesSettings, logFactory, "quoteHandler");
 
             builder.RegisterType<CandleHandler>()
                 .WithParameter((info, context) => info.Name == "rabbitMqHandler",
@@ -114,9 +122,16 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                 .SingleInstance()
                 .As<IHandler<FunctionChartingUpdate>>();
 
+            builder.RegisterType<QuoteHandler>()
+                .WithParameter((info, context) => info.Name == "rabbitMqHandler",
+                    (info, context) => context.ResolveNamed<IHandler<QuoteChartingUpdate>>("quoteHandler"))
+                .SingleInstance()
+                .As<IHandler<QuoteChartingUpdate>>();
+
             builder.RegisterType<CandleService>().As<ICandleService>().SingleInstance();
             builder.RegisterType<TradeService>().As<ITradeService>().SingleInstance();
             builder.RegisterType<FunctionService>().As<IFunctionService>().SingleInstance();
+            builder.RegisterType<QuoteService>().As<IQuoteService>().SingleInstance();
         }
 
         private static void RegisterRabbitMqHandler<T>(ContainerBuilder container,
