@@ -88,6 +88,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All quotes must have AssetPair field set and not empty.
+        /// </summary>
+        public static string AssetPairMustBeSetForQuotes {
+            get {
+                return ResourceManager.GetString("AssetPairMustBeSetForQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authorization token does not correspond to provided Instance Ids.
         /// </summary>
         public static string AuthorizationTokenDoesNotCorrespondToProvidedInstanceIds {
@@ -196,6 +205,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All quote values must have InstanceId value provided.
+        /// </summary>
+        public static string InstanceIdForAllQuoteValues {
+            get {
+                return ResourceManager.GetString("InstanceIdForAllQuoteValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All trade values must have InstanceId value provided.
         /// </summary>
         public static string InstanceIdForAllTradeValues {
@@ -250,6 +268,24 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All quotes must have Price value provided and greater then 0.
+        /// </summary>
+        public static string PriceForQuotes {
+            get {
+                return ResourceManager.GetString("PriceForQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quotes collection cannot be empty.
+        /// </summary>
+        public static string QuotesCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("QuotesCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to InstanceId must be the same for all candle values.
         /// </summary>
         public static string SameInstanceIdForAllCandleValues {
@@ -268,11 +304,29 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InstanceId must be the same for all quote values.
+        /// </summary>
+        public static string SameInstanceIdForAllQuotesValues {
+            get {
+                return ResourceManager.GetString("SameInstanceIdForAllQuotesValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to InstanceId must be the same for all trade values.
         /// </summary>
         public static string SameInstanceIdForAllTradeValues {
             get {
                 return ResourceManager.GetString("SameInstanceIdForAllTradeValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default DateTime value not allwed for Timestamp field.
+        /// </summary>
+        public static string TimestampForQuotes {
+            get {
+                return ResourceManager.GetString("TimestampForQuotes", resourceCulture);
             }
         }
         
