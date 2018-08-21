@@ -322,7 +322,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default DateTime value not allwed for Timestamp field.
+        ///   Looks up a localized string similar to Default DateTime value not allowed for Timestamp field.
         /// </summary>
         public static string TimestampForQuotes {
             get {

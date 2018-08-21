@@ -211,6 +211,6 @@
     <value>InstanceId must be the same for all quote values</value>
   </data>
   <data name="TimestampForQuotes" xml:space="preserve">
-    <value>Default DateTime value not allwed for Timestamp field</value>
+    <value>Default DateTime value not allowed for Timestamp field</value>
   </data>
 </root>

@@ -63,6 +63,20 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                 .As<IFunctionChartingUpdateRepository>()
                 .SingleInstance();
 
+            builder.Register(x =>
+                {
+                    var log = x.Resolve<ILogFactory>();
+
+                    var repository = new QuoteChartingUpdateRepository(
+                        AzureTableStorage<CSharp.AlgoTemplate.Models.Entities.QuoteChartingUpdateEntity>.Create(reloadingDbManager,
+                            QuoteChartingUpdateRepository.TableName, log)
+                    );
+
+                    return repository;
+                })
+                .As<IQuoteChartingUpdateRepository>()
+                .SingleInstance();
+
             var rabbitMqCandlesSettings = new RabbitMqSubscriptionSettings
             {
                 ConnectionString = _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService

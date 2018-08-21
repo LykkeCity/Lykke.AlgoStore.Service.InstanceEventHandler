@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
@@ -18,12 +19,18 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
     {
         private readonly IHandler<QuoteChartingUpdate> _quoteHandler;
         private readonly IAlgoClientInstanceRepository _algoClientInstanceRepository;
+        private readonly IQuoteChartingUpdateRepository _quoteChartingUpdateRepository;
         private readonly ILog _log;
 
-        public QuoteService(IHandler<QuoteChartingUpdate> quoteHandler, ILogFactory logFactory, IAlgoClientInstanceRepository algoClientInstanceRepository)
+        public QuoteService(
+            IHandler<QuoteChartingUpdate> quoteHandler, 
+            ILogFactory logFactory, 
+            IAlgoClientInstanceRepository algoClientInstanceRepository,
+            IQuoteChartingUpdateRepository quoteChartingUpdateRepository)
         {
             _quoteHandler = quoteHandler;
             _algoClientInstanceRepository = algoClientInstanceRepository;
+            _quoteChartingUpdateRepository = quoteChartingUpdateRepository;
             _log = logFactory.CreateLog(this);
         }
 
@@ -31,24 +38,23 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
         {
             var quotesChartingUpdates = quotes.ToList();
 
-            var quotesDetails = JsonConvert.SerializeObject(quotesChartingUpdates);
-
-            _log.Info($"Quotes arrived. {quotesDetails}");
-
             await ValidateQuoteChartingUpdateData(authToken, quotesChartingUpdates);
 
-            _log.Info($"Quotes validated. {quotesDetails}");
+            _log.Info($"Quotes validated.");
+
+            //Store quote values
+            await _quoteChartingUpdateRepository.WriteAsync(quotes.Select(AutoMapper.Mapper.Map<QuoteChartingUpdateData>));
+
+            _log.Info($"Quotes saved.");
 
             foreach (var quote in quotesChartingUpdates)
             {
                 var quoteDetails = JsonConvert.SerializeObject(quote);
 
-                _log.Info($"Quote {quoteDetails} will be sent to RabbitMq");
-
                 await _quoteHandler.Handle(quote);
-
-                _log.Info($"Quote {quoteDetails} sent to RabbitMq");
             }
+
+            _log.Info($"Quotes sent to RabbitMQ.");
         }
 
         private async Task ValidateQuoteChartingUpdateData(string authToken, List<QuoteChartingUpdate> quotesChartingUpdateData)

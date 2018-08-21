@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.Security.InstanceAuth;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoreLinq;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
@@ -20,13 +17,15 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         private readonly ICandleService _candleService;
         private readonly ITradeService _tradeService;
         private readonly IFunctionService _functionService;
+        private readonly IQuoteService _quoteService;
 
         public EventsController(ICandleService candleService, ITradeService tradeService,
-            IFunctionService functionService)
+            IFunctionService functionService, IQuoteService quoteService)
         {
             _candleService = candleService;
             _tradeService = tradeService;
             _functionService = functionService;
+            _quoteService = quoteService;
         }
 
         [HttpPost("handleCandles")]
@@ -61,6 +60,18 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
             var authToken = User.GetAuthToken();
 
             await _functionService.WriteAsync(authToken, functions);
+
+            return NoContent();
+        }
+
+        [HttpPost("handleQuotes")]
+        [SwaggerOperation("HandleQuotes")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> HandleQuotes([FromBody] List<QuoteChartingUpdate> quotes)
+        {
+            var authToken = User.GetAuthToken();
+
+            await _quoteService.WriteAsync(authToken, quotes);
 
             return NoContent();
         }
