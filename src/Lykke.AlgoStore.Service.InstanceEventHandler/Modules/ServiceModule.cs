@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using AzureStorage.Tables;
 using Lykke.AlgoStore.Algo.Charting;
+using Lykke.AlgoStore.Common;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
-using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories;
-using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.Entities;
-using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Handlers;
@@ -15,6 +14,7 @@ using Lykke.Logs;
 using Lykke.Logs.Loggers.LykkeConsole;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.SettingsReader;
+using System;
 using FunctionChartingUpdateRepository = Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.FunctionChartingUpdateRepository;
 using IFunctionChartingUpdateRepository = Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories.IFunctionChartingUpdateRepository;
 
@@ -54,13 +54,28 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                     var log = x.Resolve<ILogFactory>();
 
                     var repository = new FunctionChartingUpdateRepository(
-                        AzureTableStorage<FunctionChartingUpdateEntity>.Create(reloadingDbManager,
+                        AzureTableStorage<AzureRepositories.Entities.FunctionChartingUpdateEntity>.Create(reloadingDbManager,
                             FunctionChartingUpdateRepository.TableName, log)
                     );
 
                     return repository;
                 })
                 .As<IFunctionChartingUpdateRepository>()
+                .SingleInstance();
+
+            builder.Register(x =>
+                {
+                    var log = x.Resolve<ILogFactory>();
+                    var repo = x.Resolve<IFunctionChartingUpdateRepository>();
+
+                    var submitter = new BatchSubmitter<FunctionChartingUpdate>(
+                        TimeSpan.FromSeconds(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchLifetimeInSeconds),
+                        _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchSize,
+                        async data => await repo.WriteAsync(data));
+
+                    return submitter;
+                })
+                .AsSelf()
                 .SingleInstance();
 
             builder.Register(x =>
@@ -75,6 +90,21 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                     return repository;
                 })
                 .As<IQuoteChartingUpdateRepository>()
+                .SingleInstance();
+
+            builder.Register(x =>
+                {
+                    var log = x.Resolve<ILogFactory>();
+                    var repo = x.Resolve<IQuoteChartingUpdateRepository>();
+
+                    var submitter = new BatchSubmitter<QuoteChartingUpdateData>(
+                        TimeSpan.FromSeconds(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchLifetimeInSeconds),
+                        _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchSize,
+                        async data => await repo.WriteAsync(data));
+                    
+                    return submitter;
+                })
+                .AsSelf()
                 .SingleInstance();
 
             var rabbitMqCandlesSettings = new RabbitMqSubscriptionSettings

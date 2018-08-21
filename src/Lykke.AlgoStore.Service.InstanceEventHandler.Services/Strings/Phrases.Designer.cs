@@ -338,14 +338,5 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
                 return ResourceManager.GetString("TradeValuesCannotBeEmpty", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All trade values must have WalletId value provided.
-        /// </summary>
-        public static string WalletIdForAllTradeValues {
-            get {
-                return ResourceManager.GetString("WalletIdForAllTradeValues", resourceCulture);
-            }
-        }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
-using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.Common.Log;
@@ -16,18 +16,17 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
     public class CandleService : ICandleService
     {
         private readonly IHandler<CandleChartingUpdate> _candleHandler;
-        private readonly IAlgoClientInstanceRepository _algoClientInstanceRepository;
         private readonly ILog _log;
 
-        public CandleService(IHandler<CandleChartingUpdate> candleHandler, ILogFactory logFactory,
-            IAlgoClientInstanceRepository algoClientInstanceRepository)
+        public CandleService(IHandler<CandleChartingUpdate> candleHandler, ILogFactory logFactory)
         {
             _candleHandler = candleHandler;
-            _algoClientInstanceRepository = algoClientInstanceRepository;
             _log = logFactory.CreateLog(this);
         }
 
-        public async Task WriteAsync(string authToken, IEnumerable<CandleChartingUpdate> candles)
+        public async Task WriteAsync(
+            AlgoClientInstanceData clientInstanceData,
+            IEnumerable<CandleChartingUpdate> candles)
         {
             var candlesChartingUpdates = candles.ToList();
 
@@ -35,7 +34,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             _log.Info($"Candles arrived. {candlesDetails}");
 
-            await ValidateCandlesChartingUpdateData(authToken, candlesChartingUpdates);
+            ValidateCandlesChartingUpdateData(clientInstanceData, candlesChartingUpdates);
 
             _log.Info($"Candles validated. {candlesDetails}");
 
@@ -51,7 +50,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             }
         }
 
-        private async Task ValidateCandlesChartingUpdateData(string authToken,
+        private void ValidateCandlesChartingUpdateData(
+            AlgoClientInstanceData instance,
             List<CandleChartingUpdate> candlesChartingUpdateData)
         {
             if (candlesChartingUpdateData == null)
@@ -69,7 +69,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (candlesChartingUpdateData.Any(x => string.IsNullOrEmpty(x.InstanceId)))
                 throw new ValidationException(Phrases.InstanceIdForAllCandleValues);
 
-            var instance = await _algoClientInstanceRepository.GetAlgoInstanceDataByAuthTokenAsync(authToken);
             var providedInstanceId = candlesChartingUpdateData.Select(x => x.InstanceId).First();
 
             if (instance.InstanceId != providedInstanceId)

@@ -33,9 +33,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleCandles([FromBody] List<CandleChartingUpdate> candles)
         {
-            var authToken = User.GetAuthToken();
+            var instance = User.GetInstanceData();
 
-            await _candleService.WriteAsync(authToken, candles);
+            await _candleService.WriteAsync(instance, candles);
 
             return NoContent();
         }
@@ -45,9 +45,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleTrades([FromBody] List<TradeChartingUpdate> trades)
         {
-            var authToken = User.GetAuthToken();
+            var instance = User.GetInstanceData();
 
-            await _tradeService.WriteAsync(authToken, trades);
+            await _tradeService.WriteAsync(instance, trades);
 
             return NoContent();
         }
@@ -57,9 +57,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleFunctions([FromBody] List<FunctionChartingUpdate> functions)
         {
-            var authToken = User.GetAuthToken();
+            var instance = User.GetInstanceData();
 
-            await _functionService.WriteAsync(authToken, functions);
+            await _functionService.WriteAsync(instance, functions);
 
             return NoContent();
         }
@@ -69,9 +69,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> HandleQuotes([FromBody] List<QuoteChartingUpdate> quotes)
         {
-            var authToken = User.GetAuthToken();
+            var instance = User.GetInstanceData();
 
-            await _quoteService.WriteAsync(authToken, quotes);
+            await _quoteService.WriteAsync(instance, quotes);
 
             return NoContent();
         }

@@ -9,5 +9,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Settings
 
         [AzureTableCheck]
         public string DataStorageConnectionString { get; set; }
+
+        public int MaxBatchLifetimeInSeconds { get; set; }
+
+        public int MaxBatchSize { get; set; }
     }
 }

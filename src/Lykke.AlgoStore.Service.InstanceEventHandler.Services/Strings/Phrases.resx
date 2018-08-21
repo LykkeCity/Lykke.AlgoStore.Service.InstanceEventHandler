@@ -180,9 +180,6 @@
   <data name="AssetIdForAllTradeValues" xml:space="preserve">
     <value>All trade values must have AssetId value provided</value>
   </data>
-  <data name="WalletIdForAllTradeValues" xml:space="preserve">
-    <value>All trade values must have WalletId value provided</value>
-  </data>
   <data name="DateOfTradeForAllTradeValues" xml:space="preserve">
     <value>All trade values must have DateOfTrade value provided</value>
   </data>

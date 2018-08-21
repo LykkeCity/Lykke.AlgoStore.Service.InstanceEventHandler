@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
-using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.Common.Log;
@@ -16,18 +16,17 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
     public class TradeService : ITradeService
     {
         private readonly IHandler<TradeChartingUpdate> _tradeHandler;
-        private readonly IAlgoClientInstanceRepository _algoClientInstanceRepository;
         private readonly ILog _log;
 
-        public TradeService(IHandler<TradeChartingUpdate> tradeHandler, ILogFactory logFactory,
-            IAlgoClientInstanceRepository algoClientInstanceRepository)
+        public TradeService(IHandler<TradeChartingUpdate> tradeHandler, ILogFactory logFactory)
         {
             _tradeHandler = tradeHandler;
-            _algoClientInstanceRepository = algoClientInstanceRepository;
             _log = logFactory.CreateLog(this);
         }
 
-        public async Task WriteAsync(string authToken, IEnumerable<TradeChartingUpdate> trades)
+        public async Task WriteAsync(
+            AlgoClientInstanceData clientInstanceData,
+            IEnumerable<TradeChartingUpdate> trades)
         {
             var tradeChartingUpdates = trades.ToList();
 
@@ -35,7 +34,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             _log.Info($"Trades arrived. {tradesDetails}");
 
-            await ValidateTradeChartingUpdateData(authToken, tradeChartingUpdates);
+            ValidateTradeChartingUpdateData(clientInstanceData, tradeChartingUpdates);
 
             _log.Info($"Trades validated. {tradesDetails}");
 
@@ -51,7 +50,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             }
         }
 
-        private async Task ValidateTradeChartingUpdateData(string authToken,
+        private void ValidateTradeChartingUpdateData(
+            AlgoClientInstanceData instance,
             List<TradeChartingUpdate> tradeChartingUpdateData)
         {
             if (tradeChartingUpdateData == null)
@@ -69,7 +69,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.InstanceId)))
                 throw new ValidationException(Phrases.InstanceIdForAllTradeValues);
 
-            var instance = await _algoClientInstanceRepository.GetAlgoInstanceDataByAuthTokenAsync(authToken);
             var providedInstanceId = tradeChartingUpdateData.Select(x => x.InstanceId).First();
 
             if (instance.InstanceId != providedInstanceId)
@@ -83,9 +82,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.AssetId)))
                 throw new ValidationException(Phrases.AssetIdForAllTradeValues);
-
-            if (tradeChartingUpdateData.Any(x => string.IsNullOrEmpty(x.WalletId)))
-                throw new ValidationException(Phrases.WalletIdForAllTradeValues);
 
             if (tradeChartingUpdateData.Any(x => !x.DateOfTrade.HasValue || x.DateOfTrade == default(DateTime)))
                 throw new ValidationException(Phrases.DateOfTradeForAllTradeValues);

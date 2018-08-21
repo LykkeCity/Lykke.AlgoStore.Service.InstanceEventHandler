@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoMapper;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Mapper;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Controllers;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
@@ -21,6 +22,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         private Mock<ICandleService> _candleServiceMock;
         private Mock<ITradeService> _tradeServiceMock;
         private Mock<IFunctionService> _functionServiceMock;
+        private Mock<IQuoteService> _quoteServiceMock;
         private EventsController _controller;
         private Mock<HttpContext> _httpContextMock;
 
@@ -42,23 +44,28 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
 
             _candleServiceMock = new Mock<ICandleService>();
             _candleServiceMock.Setup(x =>
-                    x.WriteAsync(It.IsAny<string>(), It.IsAny<IEnumerable<CandleChartingUpdate>>()))
+                    x.WriteAsync(It.IsAny<AlgoClientInstanceData>(), It.IsAny<IEnumerable<CandleChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
             _tradeServiceMock = new Mock<ITradeService>();
-            _tradeServiceMock.Setup(x => x.WriteAsync(It.IsAny<string>(), It.IsAny<IEnumerable<TradeChartingUpdate>>()))
+            _tradeServiceMock.Setup(x => x.WriteAsync(It.IsAny<AlgoClientInstanceData>(), It.IsAny<IEnumerable<TradeChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
             _functionServiceMock = new Mock<IFunctionService>();
             _functionServiceMock.Setup(x =>
-                    x.WriteAsync(It.IsAny<string>(), It.IsAny<IEnumerable<FunctionChartingUpdate>>()))
+                    x.WriteAsync(It.IsAny<AlgoClientInstanceData>(), It.IsAny<IEnumerable<FunctionChartingUpdate>>()))
+                .Returns(Task.CompletedTask);
+
+            _quoteServiceMock = new Mock<IQuoteService>();
+            _quoteServiceMock.Setup(x =>
+                    x.WriteAsync(It.IsAny<AlgoClientInstanceData>(), It.IsAny<IEnumerable<QuoteChartingUpdate>>()))
                 .Returns(Task.CompletedTask);
 
             _httpContextMock = new Mock<HttpContext>();
             _httpContextMock.Setup(x => x.Request.Headers.Add("TEST", It.IsAny<string>()));
 
             _controller = new EventsController(_candleServiceMock.Object, _tradeServiceMock.Object,
-                    _functionServiceMock.Object)
+                    _functionServiceMock.Object, _quoteServiceMock.Object)
                 {ControllerContext = new ControllerContext {HttpContext = _httpContextMock.Object}};
         }
 
@@ -82,6 +89,14 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
         public void HandleFunctions_WillReturnCorrectResult_Test()
         {
             var result = _controller.HandleFunctions(_fixture.Build<List<FunctionChartingUpdate>>().Create()).Result;
+
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
+        [Test]
+        public void HandleQuotes_WillReturnCorrectResult_Test()
+        {
+            var result = _controller.HandleQuotes(_fixture.Build<List<QuoteChartingUpdate>>().Create()).Result;
 
             Assert.IsInstanceOf<NoContentResult>(result);
         }
