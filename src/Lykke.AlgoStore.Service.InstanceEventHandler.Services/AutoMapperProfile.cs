@@ -6,7 +6,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
     {
         public AutoMapperProfile()
         {
-            
         }
     }
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
-using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
+using Lykke.AlgoStore.Common;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.Common.Log;
@@ -17,41 +17,47 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
     public class QuoteService : IQuoteService
     {
         private readonly IHandler<QuoteChartingUpdate> _quoteHandler;
-        private readonly IAlgoClientInstanceRepository _algoClientInstanceRepository;
+        private readonly BatchSubmitter<QuoteChartingUpdateData> _batchSubmitter;
         private readonly ILog _log;
 
-        public QuoteService(IHandler<QuoteChartingUpdate> quoteHandler, ILogFactory logFactory, IAlgoClientInstanceRepository algoClientInstanceRepository)
+        public QuoteService(
+            IHandler<QuoteChartingUpdate> quoteHandler, 
+            ILogFactory logFactory, 
+            BatchSubmitter<QuoteChartingUpdateData> batchSubmitter)
         {
             _quoteHandler = quoteHandler;
-            _algoClientInstanceRepository = algoClientInstanceRepository;
+            _batchSubmitter = batchSubmitter;
             _log = logFactory.CreateLog(this);
         }
 
-        public async Task WriteAsync(string authToken, IEnumerable<QuoteChartingUpdate> quotes)
+        public async Task WriteAsync(
+            AlgoClientInstanceData clientInstanceData,
+            IEnumerable<QuoteChartingUpdate> quotes)
         {
             var quotesChartingUpdates = quotes.ToList();
 
-            var quotesDetails = JsonConvert.SerializeObject(quotesChartingUpdates);
+            ValidateQuoteChartingUpdateData(clientInstanceData, quotesChartingUpdates);
 
-            _log.Info($"Quotes arrived. {quotesDetails}");
+            _log.Info($"Quotes validated.");
 
-            await ValidateQuoteChartingUpdateData(authToken, quotesChartingUpdates);
+            //Store quote values
+            _batchSubmitter.Enqueue(quotes.Select(AutoMapper.Mapper.Map<QuoteChartingUpdateData>));
 
-            _log.Info($"Quotes validated. {quotesDetails}");
+            _log.Info($"Quotes saved.");
 
             foreach (var quote in quotesChartingUpdates)
             {
                 var quoteDetails = JsonConvert.SerializeObject(quote);
 
-                _log.Info($"Quote {quoteDetails} will be sent to RabbitMq");
-
                 await _quoteHandler.Handle(quote);
-
-                _log.Info($"Quote {quoteDetails} sent to RabbitMq");
             }
+
+            _log.Info($"Quotes sent to RabbitMQ.");
         }
 
-        private async Task ValidateQuoteChartingUpdateData(string authToken, List<QuoteChartingUpdate> quotesChartingUpdateData)
+        private void ValidateQuoteChartingUpdateData(
+            AlgoClientInstanceData instance,
+            List<QuoteChartingUpdate> quotesChartingUpdateData)
         {
             if (quotesChartingUpdateData == null)
                 throw new ArgumentNullException(nameof(quotesChartingUpdateData));
@@ -68,7 +74,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (quotesChartingUpdateData.Any(x => string.IsNullOrEmpty(x.InstanceId)))
                 throw new ValidationException(Phrases.InstanceIdForAllQuoteValues);
 
-            var instance = await _algoClientInstanceRepository.GetAlgoInstanceDataByAuthTokenAsync(authToken);
             var providedInstanceId = quotesChartingUpdateData.Select(x => x.InstanceId).First();
 
             if (instance.InstanceId != providedInstanceId)

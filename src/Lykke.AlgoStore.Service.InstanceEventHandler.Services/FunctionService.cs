@@ -6,36 +6,35 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
-using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
+using Lykke.AlgoStore.Common;
+using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Utils;
 using Lykke.Common.Log;
 using Newtonsoft.Json;
-using IFunctionChartingUpdateRepository =
-    Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories.IFunctionChartingUpdateRepository;
 
 namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 {
     public class FunctionService : IFunctionService
     {
         private readonly IHandler<FunctionChartingUpdate> _functionHandler;
-        private readonly IFunctionChartingUpdateRepository _functionChartingUpdateRepository;
-        private readonly IAlgoClientInstanceRepository _algoClientInstanceRepository;
+        private readonly BatchSubmitter<FunctionChartingUpdate> _batchSubmitter;
         private readonly ILog _log;
 
-        public FunctionService(IHandler<FunctionChartingUpdate> functionHandler,
-            IFunctionChartingUpdateRepository functionChartingUpdateRepository,
+        public FunctionService(
+            IHandler<FunctionChartingUpdate> functionHandler,
             ILogFactory logFactory,
-            IAlgoClientInstanceRepository algoClientInstanceRepository)
+            BatchSubmitter<FunctionChartingUpdate> batchSubmitter)
         {
             _functionHandler = functionHandler;
-            _functionChartingUpdateRepository = functionChartingUpdateRepository;
-            _algoClientInstanceRepository = algoClientInstanceRepository;
+            _batchSubmitter = batchSubmitter;
             _log = logFactory.CreateLog(this);
         }
 
-        public async Task WriteAsync(string authToken, IEnumerable<FunctionChartingUpdate> functions)
+        public async Task WriteAsync(
+            AlgoClientInstanceData clientInstanceData,
+            IEnumerable<FunctionChartingUpdate> functions)
         {
             var functionChartingUpdates = functions.ToList();
 
@@ -43,14 +42,14 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             _log.Info($"Functions arrived. {functionsDetails}");
 
-            await ValidateFunctionChartingUpdateData(authToken, functionChartingUpdates);
+            ValidateFunctionChartingUpdateData(clientInstanceData, functionChartingUpdates);
 
             _log.Info($"Functions validated. {functionsDetails}");
 
             _log.Info($"Functions will be sent for saving. {functionsDetails}");
 
             //Store function values
-            await _functionChartingUpdateRepository.WriteAsync(functionChartingUpdates);
+            _batchSubmitter.Enqueue(functions);
 
             _log.Info($"Functions saved. {functionsDetails}");
 
@@ -67,7 +66,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             }
         }
 
-        private async Task ValidateFunctionChartingUpdateData(string authToken,
+        private void ValidateFunctionChartingUpdateData(
+            AlgoClientInstanceData instance,
             List<FunctionChartingUpdate> functionChartingUpdateData)
         {
             if (functionChartingUpdateData == null)
@@ -87,7 +87,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (flattenedData.Any(x => string.IsNullOrEmpty(x.InstanceId)))
                 throw new ValidationException(Phrases.InstanceIdForAllFunctionValues);
 
-            var instance = await _algoClientInstanceRepository.GetAlgoInstanceDataByAuthTokenAsync(authToken);
             var providedInstanceId = flattenedData.Select(x => x.InstanceId).First();
 
             if (instance.InstanceId != providedInstanceId)

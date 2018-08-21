@@ -6,7 +6,6 @@ using AutoFixture;
 using Common.Log;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;
-using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Repositories;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Core.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services;
 using Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings;
@@ -21,59 +20,61 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
     {
         private readonly Fixture _fixture = new Fixture();
         private ITradeService _service;
+        private AlgoClientInstanceData _clientInstanceData;
 
         [SetUp]
         public void SetUp()
         {
             _service = MockService();
+            _clientInstanceData = _fixture.Build<AlgoClientInstanceData>().With(x => x.InstanceId, "TEST").Create();
         }
 
         [Test]
         public void WriteAsync_ForNullRequest_WillThrowException_Test()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _service.WriteAsync(It.IsAny<string>(), null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => _service.WriteAsync(_clientInstanceData, null));
         }
 
         [Test]
         public void WriteAsync_ForEmptyRequest_WillThrowException_Test()
         {
             Assert.ThrowsAsync<ValidationException>(() =>
-                _service.WriteAsync(It.IsAny<string>(), new List<TradeChartingUpdate>()));
+                _service.WriteAsync(_clientInstanceData, new List<TradeChartingUpdate>()));
         }
 
         [Test]
         public void WriteAsync_ForRequest_WithMoreThen100Records_WillThrowException_Test()
         {
             var request = _fixture.Build<TradeChartingUpdate>().CreateMany(101);
-            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
         }
 
         [Test]
         public void WriteAsync_ForRequest_WithDifferentInstanceIds_WillThrowException_Test()
         {
             var request = _fixture.Build<TradeChartingUpdate>().CreateMany(50);
-            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
         }
 
         [Test]
         public void WriteAsync_ForRequest_WithEmptyInstanceIds_WillThrowException_Test()
         {
             var request = _fixture.Build<TradeChartingUpdate>().With(x => x.InstanceId, "").CreateMany(50);
-            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
         }
 
         [Test]
         public void WriteAsync_ForValidRequest_WithMultipleRecords_WillSucceed_Test()
         {
             var request = _fixture.Build<TradeChartingUpdate>().With(x => x.InstanceId, "TEST").CreateMany(50);
-            _service.WriteAsync(It.IsAny<string>(), request).Wait();
+            _service.WriteAsync(_clientInstanceData, request).Wait();
         }
 
         [Test]
         public void WriteAsync_ForValidRequest_WithSingleRecord_WillSucceed_Test()
         {
             var request = _fixture.Build<TradeChartingUpdate>().With(x => x.InstanceId, "TEST").CreateMany(1);
-            _service.WriteAsync(It.IsAny<string>(), request).Wait();
+            _service.WriteAsync(_clientInstanceData, request).Wait();
         }
 
         [Test]
@@ -87,7 +88,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.IdForAllTradeValues));
         }
@@ -104,7 +105,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.AssetPairIdForAllTradeValues));
         }
@@ -122,28 +123,9 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.AssetIdForAllTradeValues));
-        }
-
-        [Test]
-        public void WriteAsync_ForRequest_WithMissingWalletIdValue_WillThrowException_Test()
-        {
-            var request = new List<TradeChartingUpdate>
-            {
-                new TradeChartingUpdate
-                {
-                    InstanceId = "TEST",
-                    Id = "TEST",
-                    AssetPairId = "TEST",
-                    AssetId = "TEST"
-                }
-            };
-
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
-
-            Assert.That(ex.Message, Is.EqualTo(Phrases.WalletIdForAllTradeValues));
         }
 
         [Test]
@@ -157,11 +139,10 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST"
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.DateOfTradeForAllTradeValues));
         }
@@ -177,12 +158,11 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.IsBuyForAllTradeValues));
         }
@@ -198,13 +178,12 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
         }
@@ -220,14 +199,13 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true,
                     Price = 0
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
         }
@@ -243,14 +221,13 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true,
                     Price = -1
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.PriceForAllTradeValues));
         }
@@ -266,14 +243,13 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true,
                     Price = 1
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
         }
@@ -289,7 +265,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true,
                     Price = 1,
@@ -297,7 +272,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
         }
@@ -313,7 +288,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                     Id = "TEST",
                     AssetPairId = "TEST",
                     AssetId = "TEST",
-                    WalletId = "TEST",
                     DateOfTrade = DateTime.UtcNow,
                     IsBuy = true,
                     Price = 1,
@@ -321,7 +295,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
                 }
             };
 
-            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(It.IsAny<string>(), request));
+            var ex = Assert.ThrowsAsync<ValidationException>(() => _service.WriteAsync(_clientInstanceData, request));
 
             Assert.That(ex.Message, Is.EqualTo(Phrases.AmountForAllTradeValues));
         }
@@ -336,13 +310,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Tests.Unit
             logFactoryMock.Setup(x => x.CreateLog(It.IsAny<object>()))
                 .Returns(logMock.Object);
 
-            var algoClientInstanceRepositoryMock = new Mock<IAlgoClientInstanceRepository>();
-
-            algoClientInstanceRepositoryMock.Setup(x => x.GetAlgoInstanceDataByAuthTokenAsync(It.IsAny<string>()))
-                .Returns(Task.FromResult(_fixture.Build<AlgoClientInstanceData>().With(x => x.InstanceId, "TEST")
-                    .Create()));
-
-            return new TradeService(handlerMock.Object, logFactoryMock.Object, algoClientInstanceRepositoryMock.Object);
+            return new TradeService(handlerMock.Object, logFactoryMock.Object);
         }
     }
 }

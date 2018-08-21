@@ -322,7 +322,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default DateTime value not allwed for Timestamp field.
+        ///   Looks up a localized string similar to Default DateTime value not allowed for Timestamp field.
         /// </summary>
         public static string TimestampForQuotes {
             get {
@@ -336,15 +336,6 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services.Strings {
         public static string TradeValuesCannotBeEmpty {
             get {
                 return ResourceManager.GetString("TradeValuesCannotBeEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All trade values must have WalletId value provided.
-        /// </summary>
-        public static string WalletIdForAllTradeValues {
-            get {
-                return ResourceManager.GetString("WalletIdForAllTradeValues", resourceCulture);
             }
         }
     }
