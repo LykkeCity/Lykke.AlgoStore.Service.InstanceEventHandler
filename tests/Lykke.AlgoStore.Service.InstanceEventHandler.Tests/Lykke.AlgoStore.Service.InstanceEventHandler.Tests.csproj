@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.5.0" />
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.31" />
+    <PackageReference Include="Lykke.HttpClientGenerator" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="Moq" Version="4.9.0" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit.Runners" Version="3.8.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\client\Lykke.AlgoStore.Service.InstanceEventHandler.Client\Lykke.AlgoStore.Service.InstanceEventHandler.Client.csproj" />
+    <ProjectReference Include="..\..\src\Lykke.AlgoStore.Service.InstanceEventHandler\Lykke.AlgoStore.Service.InstanceEventHandler.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Lykke.SettingsReader">
+      <HintPath>..\..\..\..\..\..\Users\joksa\.nuget\packages\lykke.settingsreader\1.0.43\lib\netstandard2.0\Lykke.SettingsReader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
