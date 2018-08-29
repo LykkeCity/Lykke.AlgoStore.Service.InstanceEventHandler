@@ -23,7 +23,7 @@
     <None Remove="Lykke.AlgoStore.Service.InstanceEventHandler.Client.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.31" />
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.36" />
     <PackageReference Include="Lykke.Common" Version="7.0.3" />
     <PackageReference Include="Lykke.HttpClientGenerator" Version="2.1.0" />
     <PackageReference Include="Lykke.SettingsReader" Version="2.4.1" />
