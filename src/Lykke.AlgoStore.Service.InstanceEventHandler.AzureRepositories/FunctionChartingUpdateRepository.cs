@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AzureStorage;
@@ -28,6 +29,26 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories
         public FunctionChartingUpdateRepository(INoSQLTableStorage<FunctionChartingUpdateEntity> table)
         {
             _table = table;
+        }
+
+        public async Task SaveDifferentPartionsAsync(IEnumerable<FunctionChartingUpdate> data)
+        {
+            var entities = new List<FunctionChartingUpdateEntity>();
+            foreach (var chartingUpdate in data)
+            {
+                var entity = AutoMapper.Mapper.Map<FunctionChartingUpdateEntity>(chartingUpdate);
+
+                entity.PartitionKey = GeneratePartitionKey(chartingUpdate.InstanceId);
+                entity.RowKey = GenerateRowKey();
+                entities.Add(entity);
+            }
+
+            var groups = entities.GroupBy(p => p.PartitionKey).Select(grp => grp.ToList());
+
+            foreach (var group in groups)
+            {
+                await _table.InsertOrReplaceAsync(group);
+            }
         }
 
         public async Task WriteAsync(IEnumerable<FunctionChartingUpdate> data)
