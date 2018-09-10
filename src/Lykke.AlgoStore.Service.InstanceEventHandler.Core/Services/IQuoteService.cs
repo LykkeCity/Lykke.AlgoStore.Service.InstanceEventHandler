@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lykke.AlgoStore.Algo.Charting;
 using Lykke.AlgoStore.CSharp.AlgoTemplate.Models.Models;

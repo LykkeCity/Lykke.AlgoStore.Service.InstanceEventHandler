@@ -15,6 +15,7 @@ using Lykke.Logs.Loggers.LykkeConsole;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.SettingsReader;
 using System;
+using Lykke.Sdk.Health;
 using FunctionChartingUpdateRepository = Lykke.AlgoStore.Service.InstanceEventHandler.AzureRepositories.FunctionChartingUpdateRepository;
 using IFunctionChartingUpdateRepository = Lykke.AlgoStore.Service.InstanceEventHandler.Core.Repositories.IFunctionChartingUpdateRepository;
 
@@ -176,6 +177,10 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
             builder.RegisterType<TradeService>().As<ITradeService>().SingleInstance();
             builder.RegisterType<FunctionService>().As<IFunctionService>().SingleInstance();
             builder.RegisterType<QuoteService>().As<IQuoteService>().SingleInstance();
+
+            builder.RegisterType<HealthService>()
+                .As<IHealthService>()
+                .SingleInstance();
         }
 
         private static void RegisterRabbitMqHandler<T>(ContainerBuilder container,
