@@ -71,7 +71,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                     var submitter = new BatchSubmitter<FunctionChartingUpdate>(
                         TimeSpan.FromSeconds(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchLifetimeInSeconds),
                         _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchSize,
-                        async data => await repo.WriteAsync(data));
+                        async data => await repo.SaveDifferentPartionsAsync(data));
 
                     return submitter;
                 })
@@ -83,7 +83,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                     var log = x.Resolve<ILogFactory>();
 
                     var repository = new QuoteChartingUpdateRepository(
-                        AzureTableStorage<CSharp.AlgoTemplate.Models.Entities.QuoteChartingUpdateEntity>.Create(reloadingDbManager,
+                        AzureTableStorage<CSharp.AlgoTemplate.Models.Entities.QuoteChartingUpdateEntity>.Create(
+                            reloadingDbManager,
                             QuoteChartingUpdateRepository.TableName, log)
                     );
 
@@ -93,17 +94,18 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Modules
                 .SingleInstance();
 
             builder.Register(x =>
-                {
-                    var log = x.Resolve<ILogFactory>();
-                    var repo = x.Resolve<IQuoteChartingUpdateRepository>();
+            {
+                var log = x.Resolve<ILogFactory>();
+                var repo = x.Resolve<IQuoteChartingUpdateRepository>();
 
-                    var submitter = new BatchSubmitter<QuoteChartingUpdateData>(
-                        TimeSpan.FromSeconds(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchLifetimeInSeconds),
-                        _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchSize,
-                        async data => await repo.WriteAsync(data));
-                    
-                    return submitter;
-                })
+                var submitter = new BatchSubmitter<QuoteChartingUpdateData>(
+                    TimeSpan.FromSeconds(_appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db
+                        .MaxBatchLifetimeInSeconds),
+                    _appSettings.CurrentValue.AlgoStoreInstanceEventHandlerService.Db.MaxBatchSize,
+                    async data => await repo.SaveDifferentPartionsAsync(data));
+
+                return submitter;
+            })
                 .AsSelf()
                 .SingleInstance();
 

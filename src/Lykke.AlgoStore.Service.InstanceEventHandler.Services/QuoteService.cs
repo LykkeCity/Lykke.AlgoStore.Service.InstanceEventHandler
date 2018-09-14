@@ -21,8 +21,8 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
         private readonly ILog _log;
 
         public QuoteService(
-            IHandler<QuoteChartingUpdate> quoteHandler, 
-            ILogFactory logFactory, 
+            IHandler<QuoteChartingUpdate> quoteHandler,
+            ILogFactory logFactory,
             BatchSubmitter<QuoteChartingUpdateData> batchSubmitter)
         {
             _quoteHandler = quoteHandler;
@@ -38,12 +38,12 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
 
             ValidateQuoteChartingUpdateData(clientInstanceData, quotesChartingUpdates);
 
-            _log.Info($"Quotes validated.");
+            _log.Info($"Quotes validated. InstanceId: {clientInstanceData.InstanceId}");
 
             //Store quote values
             _batchSubmitter.Enqueue(quotes.Select(AutoMapper.Mapper.Map<QuoteChartingUpdateData>));
 
-            _log.Info($"Quotes saved.");
+            _log.Info($"Quotes saved. InstanceId: {clientInstanceData.InstanceId}");
 
             foreach (var quote in quotesChartingUpdates)
             {
@@ -85,7 +85,7 @@ namespace Lykke.AlgoStore.Service.InstanceEventHandler.Services
             if (quotesChartingUpdateData.Any(x => x.Price <= 0))
                 throw new ValidationException(Phrases.PriceForQuotes);
 
-            if (quotesChartingUpdateData.Any(x => String.IsNullOrWhiteSpace(x.AssetPair) ))
+            if (quotesChartingUpdateData.Any(x => String.IsNullOrWhiteSpace(x.AssetPair)))
                 throw new ValidationException(Phrases.AssetPairMustBeSetForQuotes);
         }
     }
