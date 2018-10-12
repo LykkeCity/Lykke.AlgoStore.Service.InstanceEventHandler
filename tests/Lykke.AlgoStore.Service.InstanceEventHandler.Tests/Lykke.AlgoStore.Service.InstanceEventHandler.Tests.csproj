@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.5.0" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
-    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.36" />
+    <PackageReference Include="Lykke.AlgoStore.Algo" Version="1.0.47" />
     <PackageReference Include="Lykke.HttpClientGenerator" Version="2.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="Moq" Version="4.9.0" />
